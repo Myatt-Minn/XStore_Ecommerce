@@ -12,6 +12,8 @@ abstract class Routes {
   static const WISHLIST = _Paths.WISHLIST;
   static const CART = _Paths.CART;
   static const PROFILE = _Paths.PROFILE;
+  static const PRODUCT_DETAILS = _Paths.PRODUCT_DETAILS;
+  static const NAVIGATION_SCREEN = _Paths.NAVIGATION_SCREEN;
 }
 
 abstract class _Paths {
@@ -25,4 +27,6 @@ abstract class _Paths {
   static const WISHLIST = '/wishlist';
   static const CART = '/cart';
   static const PROFILE = '/profile';
+  static const PRODUCT_DETAILS = '/product-details';
+  static const NAVIGATION_SCREEN = '/navigation-screen';
 }

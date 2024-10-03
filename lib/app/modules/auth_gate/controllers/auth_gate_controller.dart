@@ -1,19 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AuthGateController extends GetxController {
   //TODO: Implement AuthGateController
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  var selectedIndex = 0.obs;
+
   Stream<User?> get authStateChanges => _auth.authStateChanges();
   @override
   void onInit() {
     super.onInit();
     authStateChanges.listen((User? user) {
       if (user == null) {
-        Get.offNamed('/auth-gate');
+        Get.offNamed('/navigation-screen');
       } else {
         String userId = user.uid;
         DocumentReference userDocRef =
@@ -42,9 +41,5 @@ class AuthGateController extends GetxController {
         //Get.offNamed('/home');
       }
     });
-  }
-
-  void onItemTapped(int index) {
-    selectedIndex.value = index;
   }
 }

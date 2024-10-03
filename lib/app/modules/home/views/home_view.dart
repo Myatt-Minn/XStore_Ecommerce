@@ -1,3 +1,4 @@
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -11,7 +12,7 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    final HomeController controller = Get.put(HomeController());
+    HomeController controller = Get.put(HomeController());
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -171,15 +172,17 @@ class HomeView extends GetView<HomeController> {
               // Add navigation to "See all" functionality here
             }),
             const SizedBox(height: 10),
-            SizedBox(
-              height: 260, // Height for the horizontal list
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount:
-                    popularShoes.length, // Replace with actual data length
-                itemBuilder: (context, index) {
-                  return buildProductCard(popularShoes[index]);
-                },
+            Obx(
+              () => SizedBox(
+                height: 260, // Height for the horizontal list
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: controller
+                      .productList.length, // Replace with actual data length
+                  itemBuilder: (context, index) {
+                    return buildProductCard(controller.productList[index]);
+                  },
+                ),
               ),
             ),
             const SizedBox(height: 20),
@@ -189,13 +192,16 @@ class HomeView extends GetView<HomeController> {
               // Add navigation to "See all" functionality here
             }),
             const SizedBox(height: 10),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: newArrivals.length, // Replace with actual data length
-              itemBuilder: (context, index) {
-                return buildProductListItem(newArrivals[index]);
-              },
+            Obx(
+              () => ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: controller
+                    .productList.length, // Replace with actual data length
+                itemBuilder: (context, index) {
+                  return buildProductListItem(controller.productList[index]);
+                },
+              ),
             ),
           ],
         ),
@@ -216,8 +222,8 @@ class HomeView extends GetView<HomeController> {
           ),
           GestureDetector(
             onTap: onSeeAll,
-            child: Row(
-              children: const [
+            child: const Row(
+              children: [
                 Text("See all", style: TextStyle(color: Colors.grey)),
                 Icon(Icons.arrow_forward_ios, size: 12, color: Colors.grey),
               ],
@@ -230,70 +236,77 @@ class HomeView extends GetView<HomeController> {
 
   // Build horizontal product card for "Popular Shoes"
   Widget buildProductCard(Product product) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Container(
-        width: 170,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 5.0,
-              spreadRadius: 2.0,
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Image.network(
-              product.image,
-              height: 100,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(product.name,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 16)),
-                  Text(
-                    product.brand,
-                    style: const TextStyle(color: Colors.blue),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    "${product.price} MMK",
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.black),
-                  ),
-                ],
+    return InkWell(
+      onTap: () {
+        Get.toNamed('/product-details', arguments: product);
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Container(
+          width: 170,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 5.0,
+                spreadRadius: 2.0,
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 110),
-              child: ElevatedButton(
-                onPressed: () {
-                  // Add to cart functionality
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.all(6.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  backgroundColor: Colors.green,
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FancyShimmerImage(
+                imageUrl: product.images![0],
+                height: 100,
+                width: double.infinity,
+                boxFit: BoxFit.cover,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(product.name!,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16)),
+                    Text(
+                      product.brand!,
+                      style: const TextStyle(color: Colors.blue),
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        Text(
+                          "${product.price}MMK",
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.black),
+                        ),
+                        const Spacer(),
+                        ElevatedButton(
+                          onPressed: () {
+                            // Add to cart functionality
+                          },
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.all(6.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            backgroundColor: Colors.green,
+                          ),
+                          child: const Icon(Icons.add, color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                child: const Icon(Icons.add, color: Colors.white),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -301,68 +314,73 @@ class HomeView extends GetView<HomeController> {
 
   // Build vertical product item for "New Arrivals"
   Widget buildProductListItem(Product product) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 5.0,
-              spreadRadius: 2.0,
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Image.network(
-              product.image,
-              height: 100,
-              width: 100,
-              fit: BoxFit.cover,
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(product.name,
+    return InkWell(
+      onTap: () {
+        Get.toNamed('/product-details', arguments: product);
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 5.0,
+                spreadRadius: 2.0,
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              FancyShimmerImage(
+                imageUrl: product.images![0],
+                height: 100,
+                width: 100,
+                boxFit: BoxFit.cover,
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(product.name!,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16)),
+                      Text(
+                        product.brand!,
+                        style: const TextStyle(color: Colors.blue),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        "${product.price} MMK",
                         style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16)),
-                    Text(
-                      product.brand,
-                      style: const TextStyle(color: Colors.blue),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      "${product.price} MMK",
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.black),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  // Add to cart functionality
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.all(4.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
+                            fontWeight: FontWeight.bold, color: Colors.black),
+                      ),
+                    ],
                   ),
-                  backgroundColor: Colors.green,
                 ),
-                child: const Icon(Icons.add, color: Colors.white),
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Add to cart functionality
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.all(4.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    backgroundColor: Colors.green,
+                  ),
+                  child: const Icon(Icons.add, color: Colors.white),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
