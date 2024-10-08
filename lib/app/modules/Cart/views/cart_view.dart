@@ -1,6 +1,7 @@
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:get/get.dart';
 import 'package:xstore/app/data/cart_model.dart';
 import 'package:xstore/app/modules/Cart/controllers/cart_controller.dart';
 
@@ -29,101 +30,124 @@ class CartView extends GetView<CartController> {
                   return Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16.0, vertical: 8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.1),
-                            spreadRadius: 1,
-                            blurRadius: 5,
+                    child: Slidable(
+                      // Set action panes to be slightly visible by default
+                      endActionPane: ActionPane(
+                        motion: const StretchMotion(),
+                        extentRatio: 0.3, // Reveal part of the action pane
+                        children: [
+                          SlidableAction(
+                            onPressed: (context) =>
+                                _showDeleteConfirmation(context, item),
+                            backgroundColor: Colors.red,
+                            foregroundColor: Colors.white,
+                            icon: Icons.delete,
+                            label: 'Delete',
                           ),
                         ],
                       ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          // Product Image
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.network(
-                                item.imageUrl,
-                                width: 80,
-                                height: 80,
-                                fit: BoxFit.cover,
-                              ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.1),
+                              spreadRadius: 1,
+                              blurRadius: 5,
                             ),
-                          ),
-
-                          // Product Info
-                          Expanded(
-                            child: Padding(
+                          ],
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            // Product Image
+                            Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    item.name,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text('${item.price} MMK'),
-                                ],
-                              ),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: FancyShimmerImage(
+                                    imageUrl: item.imageUrl,
+                                    width: 80,
+                                    height: 80,
+                                    boxFit: BoxFit.cover,
+                                  )),
                             ),
-                          ),
 
-                          // Quantity Adjusters and Remove Button
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
+                            // Product Info
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    IconButton(
-                                      onPressed: () {
-                                        controller.decreaseQuantity(index);
-                                      },
-                                      icon: const Icon(
-                                          Icons.remove_circle_outline,
-                                          color: Colors.red),
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 12, vertical: 4),
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey[200],
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      child: Text(
-                                        item.quantity.toString(),
-                                        style: const TextStyle(
+                                    Text(
+                                      item.name,
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16,
-                                        ),
-                                      ),
+                                          color: Colors.black),
                                     ),
-                                    IconButton(
-                                      onPressed: () {
-                                        controller.increaseQuantity(index);
-                                      },
-                                      icon: const Icon(Icons.add_circle_outline,
-                                          color: Colors.green),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      '${item.price} MMK',
+                                      style:
+                                          const TextStyle(color: Colors.black),
                                     ),
                                   ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ],
+
+                            // Quantity Adjusters and Remove Button
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          controller.decreaseQuantity(index);
+                                        },
+                                        icon: const Icon(
+                                            Icons.remove_circle_outline,
+                                            color: Colors.red),
+                                      ),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 12, vertical: 4),
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey[200],
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                        child: Text(
+                                          item.quantity.toString(),
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          controller.increaseQuantity(index);
+                                        },
+                                        icon: const Icon(
+                                            Icons.add_circle_outline,
+                                            color: Colors.green),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );
@@ -158,7 +182,9 @@ class CartView extends GetView<CartController> {
                         const Text(
                           "Total Quantity",
                           style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
                         ),
                         Obx(() {
                           int totalQuantity = controller.cartItems
@@ -166,7 +192,9 @@ class CartView extends GetView<CartController> {
                           return Text(
                             totalQuantity.toString(),
                             style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
                           );
                         }),
                       ],
@@ -178,13 +206,17 @@ class CartView extends GetView<CartController> {
                         const Text(
                           "Total Amount",
                           style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
                         ),
                         Obx(() {
                           return Text(
                             '${controller.totalAmount} MMK',
                             style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
                           );
                         }),
                       ],
@@ -194,7 +226,7 @@ class CartView extends GetView<CartController> {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          Get.snackbar('Checkout', 'Proceeding to checkout');
+                          Get.toNamed('/check-out');
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green[300],

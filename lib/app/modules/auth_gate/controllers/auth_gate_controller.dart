@@ -12,7 +12,7 @@ class AuthGateController extends GetxController {
     super.onInit();
     authStateChanges.listen((User? user) {
       if (user == null) {
-        Get.offNamed('/navigation-screen');
+        Get.offNamed('/signup');
       } else {
         String userId = user.uid;
         DocumentReference userDocRef =
@@ -29,11 +29,12 @@ class AuthGateController extends GetxController {
               } else if (userData['role'] == 'premium') {
                 Get.offAllNamed('/premium');
               } else {
-                Get.offAllNamed('/auth-gate');
+                Get.offAllNamed('/navigation-screen');
               }
             }
           } else {
             print('User document does not exist');
+            Get.offNamed('/signup');
           }
         }).catchError((error) {
           print('Error getting user document: $error');

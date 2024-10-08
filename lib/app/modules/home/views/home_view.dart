@@ -1,9 +1,10 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:xstore/app/data/content_model.dart';
 import 'package:xstore/app/data/product_model.dart';
+import 'package:xstore/app/modules/Cart/controllers/cart_controller.dart';
+import 'package:xstore/app/modules/navigation_screen/controllers/navigation_screen_controller.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -13,8 +14,8 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     HomeController controller = Get.put(HomeController());
+    final cartController = Get.put(CartController());
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -50,30 +51,43 @@ class HomeView extends GetView<HomeController> {
                       ),
                     ],
                   ),
-                  Stack(
-                    children: [
-                      IconButton(
-                        icon:
-                            const Icon(Icons.notifications_outlined, size: 30),
-                        onPressed: () {},
-                      ),
-                      Positioned(
-                        right: 6,
-                        top: 6,
-                        child: Container(
-                          padding: const EdgeInsets.all(3),
-                          decoration: const BoxDecoration(
-                            color: Colors.red,
-                            shape: BoxShape.circle,
+                  Obx(() => Stack(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.shopping_cart),
+                            onPressed: () {
+                              // Navigate to Cart Page
+                              Get.toNamed('/cart');
+                            },
                           ),
-                          child: const Text(
-                            "1",
-                            style: TextStyle(fontSize: 12, color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                          if (cartController.itemCount >
+                              0) // Show badge only if there are items
+                            Positioned(
+                              right: 8,
+                              top: 8,
+                              child: Container(
+                                padding: const EdgeInsets.all(2),
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                constraints: const BoxConstraints(
+                                  minWidth: 16,
+                                  minHeight: 16,
+                                ),
+                                child: Text(
+                                  '${cartController.itemCount}',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                        ],
+                      )),
                 ],
               ),
             ),
@@ -81,19 +95,39 @@ class HomeView extends GetView<HomeController> {
             // Search bar
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: "Search products, brands...",
-                  prefixIcon: const Icon(Icons.search),
-                  suffixIcon: IconButton(
-                    icon: const Icon(Icons.filter_list),
-                    onPressed: () {},
+              child: GestureDetector(
+                onTap: () {
+                  Get.find<NavigationScreenController>().selectedIndex.value =
+                      1; // Navigate to filter screen
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 8.0, horizontal: 16.0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200], // Same fill color
+                    borderRadius: BorderRadius.circular(12), // Rounded corners
                   ),
-                  filled: true,
-                  fillColor: Colors.grey[200],
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
+                  child: Row(
+                    children: [
+                      const Icon(Icons.search), // Search Icon
+                      const SizedBox(width: 10),
+                      const Expanded(
+                        child: Text(
+                          "Search products, brands...",
+                          style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 16), // Hint text styling
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.filter_list),
+                        onPressed: () {
+                          Get.find<NavigationScreenController>()
+                              .selectedIndex
+                              .value = 1; // Navigate to filter screen
+                        },
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -133,20 +167,27 @@ class HomeView extends GetView<HomeController> {
                   ),
                 )),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             // Category Section
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     "Category",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  Text(
-                    "See all",
-                    style: TextStyle(color: Colors.blue),
+                  GestureDetector(
+                    onTap: () {
+                      Get.find<NavigationScreenController>()
+                          .selectedIndex
+                          .value = 1;
+                    },
+                    child: const Text(
+                      "See all >",
+                      style: TextStyle(color: Colors.blue),
+                    ),
                   ),
                 ],
               ),
@@ -174,11 +215,11 @@ class HomeView extends GetView<HomeController> {
             const SizedBox(height: 10),
             Obx(
               () => SizedBox(
-                height: 260, // Height for the horizontal list
+                height: 220, // Height for the horizontal list
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: controller
-                      .productList.length, // Replace with actual data length
+                  itemCount: controller.popularProducts
+                      .length, // Replace with actual data length
                   itemBuilder: (context, index) {
                     return buildProductCard(controller.productList[index]);
                   },
@@ -191,7 +232,7 @@ class HomeView extends GetView<HomeController> {
             buildSectionHeader("New Arrivals", () {
               // Add navigation to "See all" functionality here
             }),
-            const SizedBox(height: 10),
+
             Obx(
               () => ListView.builder(
                 shrinkWrap: true,
@@ -243,7 +284,7 @@ class HomeView extends GetView<HomeController> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Container(
-          width: 170,
+          width: 180,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
@@ -262,7 +303,7 @@ class HomeView extends GetView<HomeController> {
                 imageUrl: product.images![0],
                 height: 100,
                 width: double.infinity,
-                boxFit: BoxFit.cover,
+                boxFit: BoxFit.contain,
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -273,32 +314,23 @@ class HomeView extends GetView<HomeController> {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16)),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.black)),
                     Text(
                       product.brand!,
                       style: const TextStyle(color: Colors.blue),
                     ),
                     const SizedBox(height: 4),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           "${product.price}MMK",
                           style: const TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
-                        ),
-                        const Spacer(),
-                        ElevatedButton(
-                          onPressed: () {
-                            // Add to cart functionality
-                          },
-                          style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.all(6.0),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            backgroundColor: Colors.green,
-                          ),
-                          child: const Icon(Icons.add, color: Colors.white),
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 16),
                         ),
                       ],
                     ),
@@ -338,7 +370,7 @@ class HomeView extends GetView<HomeController> {
                 imageUrl: product.images![0],
                 height: 100,
                 width: 100,
-                boxFit: BoxFit.cover,
+                boxFit: BoxFit.contain,
               ),
               Expanded(
                 child: Padding(
@@ -348,7 +380,9 @@ class HomeView extends GetView<HomeController> {
                     children: [
                       Text(product.name!,
                           style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16)),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: Colors.black)),
                       Text(
                         product.brand!,
                         style: const TextStyle(color: Colors.blue),
@@ -367,14 +401,14 @@ class HomeView extends GetView<HomeController> {
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    // Add to cart functionality
+                    Get.toNamed('/product-details', arguments: product);
                   },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.all(4.0),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    backgroundColor: Colors.green,
+                    backgroundColor: const Color(0xFF95CCA9),
                   ),
                   child: const Icon(Icons.add, color: Colors.white),
                 ),

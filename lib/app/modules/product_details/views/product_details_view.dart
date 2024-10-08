@@ -10,18 +10,50 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
 
   @override
   Widget build(BuildContext context) {
+    final cartController = Get.put(CartController());
     Get.put(CartController());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Detail'),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.shopping_cart),
-            onPressed: () {
-              // Navigate to Cart Page
-              Get.toNamed('/cart');
-            },
-          ),
+          // Cart icon with badge
+          Obx(() => Stack(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.shopping_cart),
+                    onPressed: () {
+                      // Navigate to Cart Page
+                      Get.toNamed('/cart');
+                    },
+                  ),
+                  if (cartController.itemCount >
+                      0) // Show badge only if there are items
+                    Positioned(
+                      right: 8,
+                      top: 8,
+                      child: Container(
+                        padding: const EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        constraints: const BoxConstraints(
+                          minWidth: 16,
+                          minHeight: 16,
+                        ),
+                        child: Text(
+                          '${cartController.itemCount}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                ],
+              )),
         ],
       ),
       body: Column(
@@ -64,7 +96,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                                           color: controller.selectedImageIndex
                                                       .value ==
                                                   index
-                                              ? Colors.green
+                                              ? const Color(0xFF95CCA9)
                                               : Colors.transparent,
                                           width: 2),
                                       borderRadius: BorderRadius.circular(8),

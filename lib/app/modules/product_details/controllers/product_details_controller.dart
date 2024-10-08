@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xstore/app/data/cart_model.dart';
 import 'package:xstore/app/data/product_model.dart';
@@ -55,6 +56,9 @@ class ProductDetailsController extends GetxController {
 
     // Get an instance of the CartController and add the item to the cart
     Get.find<CartController>().addItem(cartItem);
-    Get.snackbar('Success', '${product.name} added to cart successfully!');
+    Get.snackbar('Success', '${product.name} added to cart successfully!',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: const Color(0xFF95CCA9),
+        colorText: Colors.black);
   }
 }

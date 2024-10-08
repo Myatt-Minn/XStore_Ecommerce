@@ -17,6 +17,17 @@ class Product {
       this.brand,
       this.sizes,
       this.colors});
+  // Convert CartItem to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'price': price,
+      'description': description,
+      'image': images,
+      'brand': brand,
+      'sizes': sizes,
+    };
+  }
 
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -39,28 +50,3 @@ class Product {
     }).toList();
   }
 }
-
-// Mock data for demonstration
-final List<Product> popular = [
-  Product(
-      name: 'Jordan 1 Retro Chris Paul PE',
-      brand: 'Nike',
-      price: 500000,
-      images: [
-        'https://firebasestorage.googleapis.com/v0/b/xstore-faa86.appspot.com/o/popular_shoes%2Fshoe02.png?alt=media&token=dddb07de-df0d-4865-a610-0bbadba1da94'
-      ]),
-  Product(
-      name: 'Jordan 1 Mid Gym Red Panda',
-      brand: 'Nike',
-      price: 500000,
-      images: [
-        'https://firebasestorage.googleapis.com/v0/b/xstore-faa86.appspot.com/o/popular_shoes%2Fshoe03.png?alt=media&token=99675f9b-0da0-461a-a25d-0dcdd319c683'
-      ]),
-  Product(
-      name: 'Jordan 1 Mid Black Chile Red White',
-      brand: 'Nike',
-      price: 500000,
-      images: [
-        'https://firebasestorage.googleapis.com/v0/b/xstore-faa86.appspot.com/o/popular_shoes%2Fshoe07.png?alt=media&token=a98841b0-a7a4-4037-9088-94f6ac4b7812'
-      ]),
-];

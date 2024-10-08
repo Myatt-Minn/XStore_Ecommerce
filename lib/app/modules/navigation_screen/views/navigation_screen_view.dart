@@ -1,11 +1,10 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:xstore/app/modules/Cart/views/cart_view.dart';
-import 'package:xstore/app/modules/Wishlist/views/wishlist_view.dart';
+import 'package:xstore/app/modules/account/views/account_view.dart';
+import 'package:xstore/app/modules/category/views/category_view.dart';
 import 'package:xstore/app/modules/home/views/home_view.dart';
-import 'package:xstore/app/modules/profile/views/profile_view.dart';
 
 import '../controllers/navigation_screen_controller.dart';
 
@@ -15,9 +14,9 @@ class NavigationScreenView extends GetView<NavigationScreenController> {
   Widget build(BuildContext context) {
     final List<Widget> pages = [
       const HomeView(),
-      const WishlistView(),
+      const CategoryView(),
       const CartView(),
-      const ProfileView(),
+      const AccountView(),
     ];
     return Scaffold(
       // Using Obx to reactively update the selected screen
