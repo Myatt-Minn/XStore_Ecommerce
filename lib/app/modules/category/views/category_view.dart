@@ -9,10 +9,9 @@ class CategoryView extends GetView<CategoryController> {
 
   @override
   Widget build(BuildContext context) {
-    CategoryController controller = Get.put(CategoryController());
-
     return Scaffold(
       appBar: AppBar(
+        leading: const Icon(Icons.category),
         title: const Text('Category',
             style: TextStyle(fontWeight: FontWeight.bold)),
         backgroundColor: Colors.white,
@@ -116,19 +115,17 @@ class CategoryView extends GetView<CategoryController> {
     );
   }
 
-  // Brand Screen Layout (for displaying brands)
   Widget _buildBrandScreen() {
     return SizedBox(
       height: 110, // Height for the circular icons list
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: [
-          _buildBrandCircle('Nike', 'images/Nike.png'),
-          _buildBrandCircle('Adidas', 'images/adidas.png'),
-          _buildBrandCircle('New_Balance', 'images/NB.png'),
-          _buildBrandCircle('Converse', 'images/converse.png'),
-        ],
-      ),
+      child: Obx(() => ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: controller.brands.length,
+            itemBuilder: (context, index) {
+              final brand = controller.brands[index];
+              return _buildBrandCircle(brand.title, brand.imgUrl);
+            },
+          )),
     );
   }
 
@@ -144,7 +141,7 @@ class CategoryView extends GetView<CategoryController> {
           children: [
             CircleAvatar(
               radius: 35,
-              backgroundImage: AssetImage(
+              backgroundImage: NetworkImage(
                   imagePath), // Replace with your actual brand images
             ),
             const SizedBox(height: 5),
@@ -203,20 +200,17 @@ class CategoryView extends GetView<CategoryController> {
     );
   }
 
-  // Horizontal list of circular category icons
   Widget _buildCategoryIcons() {
     return SizedBox(
       height: 110, // Height for the circular icons list
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: [
-          _buildCategoryIcon('images/shoe.png', 'shoes'),
-          _buildCategoryIcon('images/shirt.png', 'shirts'),
-          _buildCategoryIcon('images/watch.png', 'Phones'),
-          _buildCategoryIcon('images/electronic.png', 'Headphones'),
-          _buildCategoryIcon('images/bag.png', 'Bags'),
-        ],
-      ),
+      child: Obx(() => ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: controller.categories.length,
+            itemBuilder: (context, index) {
+              final category = controller.categories[index];
+              return _buildCategoryIcon(category.imgUrl, category.title);
+            },
+          )),
     );
   }
 
@@ -234,7 +228,7 @@ class CategoryView extends GetView<CategoryController> {
           children: [
             CircleAvatar(
               radius: 35,
-              backgroundImage: AssetImage(imagePath),
+              backgroundImage: NetworkImage(imagePath),
             ),
             const SizedBox(height: 5),
             Text(label, style: const TextStyle(fontSize: 12)),
@@ -291,7 +285,7 @@ class CategoryView extends GetView<CategoryController> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "${product.price}MMK",
+                        "${product.sizes![0]['price']}MMK",
                         style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.black,

@@ -30,7 +30,7 @@ class OnboardingController extends GetxController {
   // Function to handle the next button tap
   void handleNext() {
     if (currentPage.value == contents.length - 1) {
-      Get.offAllNamed('/navigation-screen');
+      Get.offAllNamed('/auth-gate');
     } else {
       pageController.nextPage(
           duration: const Duration(milliseconds: 300), curve: Curves.bounceIn);

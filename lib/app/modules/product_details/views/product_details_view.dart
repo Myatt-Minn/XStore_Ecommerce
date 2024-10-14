@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xstore/app/data/app_widgets.dart';
 import 'package:xstore/app/modules/Cart/controllers/cart_controller.dart';
+import 'package:xstore/app/modules/navigation_screen/controllers/navigation_screen_controller.dart';
 import 'package:xstore/app/modules/product_details/controllers/product_details_controller.dart';
 
 class ProductDetailsView extends GetView<ProductDetailsController> {
@@ -23,7 +24,10 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                     icon: const Icon(Icons.shopping_cart),
                     onPressed: () {
                       // Navigate to Cart Page
-                      Get.toNamed('/cart');
+                      Get.find<NavigationScreenController>()
+                          .currentIndex
+                          .value = 2;
+                      Get.back();
                     },
                   ),
                   if (cartController.itemCount >
@@ -68,7 +72,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                     // Main Product Image
                     Obx(() => Center(
                           child: FancyShimmerImage(
-                            imageUrl: controller.product
+                            imageUrl: controller.product.value
                                 .images![controller.selectedImageIndex.value],
                             height: 180,
                             width: 250,
@@ -81,7 +85,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                       height: 80,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: controller.product.images!.length,
+                        itemCount: controller.product.value.images!.length,
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
@@ -102,8 +106,8 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     child: FancyShimmerImage(
-                                      imageUrl:
-                                          controller.product.images![index],
+                                      imageUrl: controller
+                                          .product.value.images![index],
                                       width: 70,
                                       height: 70,
                                       boxFit: BoxFit.contain,
@@ -115,59 +119,71 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Text(controller.product.name!,
+                    Text(controller.product.value.name!,
                         style: AppWidgets.smallboldlineTextFieldStyle()),
                     const SizedBox(height: 5),
-                    Text("${controller.product.price!} MMK",
-                        style: AppWidgets.boldTextFieldStyle()),
+                    // Text("${controller.product.sizes![0]['price']} MMK",
+                    //     style: AppWidgets.boldTextFieldStyle()),
 
-                    const SizedBox(height: 10),
-                    Text(controller.product.description!,
+                    // const SizedBox(height: 10),
+                    Text(controller.product.value.description!,
                         style: AppWidgets.lightTextFieldStyle()),
                     const SizedBox(height: 10),
                     // Size Selection
-                    const Text("Size"),
-                    Obx(() => Wrap(
-                          children: List.generate(
-                            controller.product.sizes!.length,
-                            (index) => Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 4.0),
-                              child: ChoiceChip(
-                                selectedColor: Colors.green[300],
-                                label: Text(controller.product.sizes![index]
-                                    .toString()),
-                                selected:
-                                    controller.selectedSize.value == index,
-                                onSelected: (selected) {
-                                  controller.changeSize(index);
-                                },
-                              ),
-                            ),
-                          ),
+                    // List of sizes with quantity and prices
+                    Obx(() => ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: controller.product.value.sizes!.length,
+                          itemBuilder: (context, index) {
+                            final size = controller.product.value.sizes![index];
+
+                            // Wrap the GestureDetector or ListTile in its own Obx
+                            return GestureDetector(
+                              onTap: () {
+                                if (size['quantity'] > 0) {
+                                  controller.selectSize(size['size']);
+                                } else {
+                                  Get.snackbar("Out of Stock",
+                                      "This size is out of stock.",
+                                      backgroundColor: Colors.red,
+                                      colorText: Colors.black);
+                                }
+                              },
+                              child: Obx(() {
+                                // Check if this size is selected
+                                final isSelected =
+                                    controller.selectedSize.value ==
+                                        size['size'];
+
+                                return Container(
+                                  color: isSelected
+                                      ? Colors.greenAccent
+                                      : Colors.white,
+                                  child: ListTile(
+                                    title: Text('Size: ${size['size']}',
+                                        style: const TextStyle(
+                                            color: Colors.black)),
+                                    subtitle: Text('Price: \$${size['price']}',
+                                        style: const TextStyle(
+                                            color: Colors.black)),
+                                    trailing: Text(
+                                        'In Stock: ${size['quantity']}',
+                                        style: const TextStyle(
+                                            color: Colors.black)),
+                                    leading: isSelected
+                                        ? const Icon(Icons.check_circle,
+                                            color: Colors.green)
+                                        : const Icon(
+                                            Icons.radio_button_unchecked,
+                                            color: Colors.black),
+                                  ),
+                                );
+                              }),
+                            );
+                          },
                         )),
                     const SizedBox(height: 10),
-                    // Color Selection
-                    const Text("Color"),
-                    Obx(() => Wrap(
-                          children: List.generate(
-                            controller.product.colors!.length,
-                            (index) => Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 4),
-                              child: ChoiceChip(
-                                selectedColor: Colors.green[300],
-                                label: Text(controller.product.colors![index]),
-                                selected:
-                                    controller.selectedColor.value == index,
-                                onSelected: (selected) {
-                                  controller.changeColor(index);
-                                },
-                              ),
-                            ),
-                          ),
-                        )),
-                    const SizedBox(height: 20),
+
                     // Add to Cart Button
                     Row(
                       children: [
@@ -183,7 +199,19 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                               controller.quantity.toString(),
                             ))),
                         IconButton(
-                          icon: const Icon(Icons.add),
+                          icon: Icon(
+                            Icons.add,
+                            color: controller.selectedSize.value != 0 &&
+                                    controller.product.value.sizes!.firstWhere(
+                                            (sizeData) =>
+                                                sizeData['size'] ==
+                                                controller.selectedSize
+                                                    .value)['quantity'] >
+                                        controller.quantity.value
+                                ? Colors.black
+                                : Colors
+                                    .grey, // Disable the button if no more stock
+                          ),
                           onPressed: controller.increaseQuantity,
                         ),
                         const SizedBox(width: 20),
@@ -197,7 +225,16 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                                     12), // Optional: To match the design with rounded corners
                               ),
                             ),
-                            onPressed: controller.addToCart,
+                            onPressed: () {
+                              if (controller.selectedSize.value != 0) {
+                                controller.addToCart();
+                              } else {
+                                Get.snackbar("Error",
+                                    "Please select a size before adding to cart.",
+                                    backgroundColor: Colors.red,
+                                    colorText: Colors.black);
+                              }
+                            },
                             child: const Text(
                               "Add To Cart",
                               style: TextStyle(color: Colors.white),

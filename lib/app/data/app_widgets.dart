@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -59,6 +60,114 @@ Future<void> cloneCollection(
   }
 }
 
+// await cloneDocument(
+//     'shirts', '4665UmO1aPjzbYdQUHq9', 'new_arrivals', 'y9Cq3hm0OhTEIidWB4jl');
 
-  // await cloneDocument(
-  //     'shirts', '4665UmO1aPjzbYdQUHq9', 'new_arrivals', 'y9Cq3hm0OhTEIidWB4jl');
+class AdminDrawer extends StatelessWidget {
+  const AdminDrawer({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero, // Remove padding from ListView
+        children: [
+          Container(
+            height: 80,
+            color: Colors.green[300],
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+            ),
+            child: const Center(
+                child: Text(
+              "Admin Menu",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 21,
+                  fontWeight: FontWeight.bold),
+            )),
+          ),
+          buildMenuItem(
+            context,
+            Icons.dashboard,
+            'Dashboard',
+            Colors.grey,
+            () => Get.toNamed('/admin-dashboard'),
+          ),
+          buildMenuItem(
+            context,
+            Icons.person,
+            'User List',
+            Colors.grey,
+            () => Get.toNamed('/customer-list'),
+          ),
+          buildMenuItem(
+            context,
+            Icons.list_alt,
+            'Order List',
+            Colors.grey,
+            () => Get.toNamed('/order-list'),
+          ),
+          buildMenuItem(
+            context,
+            Icons.category,
+            'Category List',
+            Colors.grey,
+            () => Get.toNamed('/category-list'),
+          ),
+          buildMenuItem(
+            context,
+            Icons.branding_watermark,
+            'Brand List',
+            Colors.grey,
+            () => Get.toNamed('/brand-list'),
+          ),
+          buildMenuItem(
+            context,
+            Icons.production_quantity_limits,
+            'Product List',
+            Colors.grey,
+            () => Get.toNamed('/product-list'),
+          ),
+          buildMenuItem(
+            context,
+            Icons.image,
+            'Banner List',
+            Colors.grey,
+            () => Get.toNamed('/banner-list'),
+          ),
+          buildMenuItem(
+            context,
+            Icons.payment,
+            'Payment List',
+            Colors.grey,
+            () => Get.toNamed('/payment-list'),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          buildMenuItem(
+            context,
+            Icons.logout,
+            'Logout',
+            Colors.grey,
+            () => FirebaseAuth.instance.signOut(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildMenuItem(BuildContext context, IconData icon, String title,
+      Color iconColor, Function onPressed) {
+    return ListTile(
+      leading: Icon(icon, color: iconColor),
+      title: Text(title),
+      onTap: () {
+        onPressed(); // Invoke the passed function
+      },
+    );
+  }
+}

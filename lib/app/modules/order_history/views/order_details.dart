@@ -1,5 +1,7 @@
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xstore/app/data/consts_config.dart';
 import 'package:xstore/app/data/order_model.dart';
 
 import '../controllers/order_history_controller.dart';
@@ -24,12 +26,6 @@ class OrderDetails extends GetView<OrderHistoryController> {
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.more_vert, color: Colors.black),
-            onPressed: () {},
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -108,18 +104,22 @@ class OrderDetails extends GetView<OrderHistoryController> {
                 const EdgeInsets.symmetric(horizontal: 4.0, vertical: 12.0),
             child: Row(
               children: [
-                Image.network(
-                  orderitem.imageUrl,
+                FancyShimmerImage(
+                  imageUrl: orderitem.imageUrl,
+                  width: 80,
                   height: 50,
                 ),
                 const SizedBox(width: 16),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      orderitem.name,
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold),
+                    SizedBox(
+                      width: 190,
+                      child: Text(
+                        orderitem.name,
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
                     ),
                     Text(
                       "${orderitem.price} MMK",
@@ -127,7 +127,7 @@ class OrderDetails extends GetView<OrderHistoryController> {
                           const TextStyle(fontSize: 14, color: Colors.black87),
                     ),
                     Text(
-                      "Size: ${orderitem.size}   Color: ${orderitem.color}",
+                      "Size: ${orderitem.size}",
                       style:
                           const TextStyle(fontSize: 14, color: Colors.black87),
                     ),
@@ -160,11 +160,6 @@ class OrderDetails extends GetView<OrderHistoryController> {
             crossAxisAlignment:
                 CrossAxisAlignment.start, // Aligns the start of the text
             children: [
-              Image.asset(
-                'images/kbzpay.png',
-                height: 30,
-              ),
-              const SizedBox(width: 8),
               Text(
                 order.paymentMethod!,
                 style: const TextStyle(fontSize: 16),
@@ -269,7 +264,7 @@ class OrderDetails extends GetView<OrderHistoryController> {
             style: TextStyle(fontSize: 16),
           ),
           trailing: Text(
-            "${order.totalPrice} MMK",
+            "${order.totalPrice! - ConstsConfig.deliveryfee} MMK",
             style: const TextStyle(fontSize: 16),
           ),
         ),
@@ -279,7 +274,7 @@ class OrderDetails extends GetView<OrderHistoryController> {
             style: TextStyle(fontSize: 16),
           ),
           trailing: Text(
-            "2,000 MMK",
+            "${ConstsConfig.deliveryfee} MMK",
             style: TextStyle(fontSize: 16),
           ),
         ),
@@ -290,7 +285,7 @@ class OrderDetails extends GetView<OrderHistoryController> {
             style: TextStyle(fontSize: 16),
           ),
           trailing: Text(
-            "${order.totalPrice! + 20000} MMK",
+            "${order.totalPrice} MMK",
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
         ),

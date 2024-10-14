@@ -4,4 +4,5 @@ class ConstsConfig {
   static const String kpaynumber = "09798574131";
   static const String ayapayname = "Myat Min";
   static const String ayapaynumber = "09798574131";
+  static const int deliveryfee = 2000;
 }

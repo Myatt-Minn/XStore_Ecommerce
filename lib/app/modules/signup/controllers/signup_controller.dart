@@ -97,6 +97,8 @@ class SignupController extends GetxController {
         'name': nameController.text.trim(),
         'email': emailController.text.trim(),
         'profilepic': "", // Default profile picture URL
+        "role": "user",
+        "phoneNumber": "",
       });
       isLoading.value = false;
       // Show success message

@@ -5,8 +5,6 @@ import '../controllers/order_history_controller.dart';
 class OrderHistoryBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<OrderHistoryController>(
-      () => OrderHistoryController(),
-    );
+    Get.put(OrderHistoryController());
   }
 }

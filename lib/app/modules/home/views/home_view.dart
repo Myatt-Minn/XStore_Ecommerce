@@ -1,7 +1,6 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:xstore/app/data/content_model.dart';
 import 'package:xstore/app/data/product_model.dart';
 import 'package:xstore/app/modules/Cart/controllers/cart_controller.dart';
 import 'package:xstore/app/modules/navigation_screen/controllers/navigation_screen_controller.dart';
@@ -13,8 +12,8 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    HomeController controller = Get.put(HomeController());
     final cartController = Get.put(CartController());
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -57,7 +56,9 @@ class HomeView extends GetView<HomeController> {
                             icon: const Icon(Icons.shopping_cart),
                             onPressed: () {
                               // Navigate to Cart Page
-                              Get.toNamed('/cart');
+                              Get.find<NavigationScreenController>()
+                                  .currentIndex
+                                  .value = 2;
                             },
                           ),
                           if (cartController.itemCount >
@@ -97,7 +98,7 @@ class HomeView extends GetView<HomeController> {
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: GestureDetector(
                 onTap: () {
-                  Get.find<NavigationScreenController>().selectedIndex.value =
+                  Get.find<NavigationScreenController>().currentIndex.value =
                       1; // Navigate to filter screen
                 },
                 child: Container(
@@ -123,7 +124,7 @@ class HomeView extends GetView<HomeController> {
                         icon: const Icon(Icons.filter_list),
                         onPressed: () {
                           Get.find<NavigationScreenController>()
-                              .selectedIndex
+                              .currentIndex
                               .value = 1; // Navigate to filter screen
                         },
                       ),
@@ -135,34 +136,34 @@ class HomeView extends GetView<HomeController> {
 
             const SizedBox(height: 20),
 
-            // Promotional Banner
-            SizedBox(
-              height: 180,
-              child: PageView(
-                onPageChanged: controller.changePage,
-                children: [
-                  Image.asset(
-                    'images/banner.png', // Add your banner image here
-                    fit: BoxFit.cover,
-                  ),
-                  Image.asset(
-                    'images/banner.png', // Add another banner
-                    fit: BoxFit.cover,
-                  ),
-                  Image.asset(
-                    'images/banner.png', // Add another banner
-                    fit: BoxFit.cover,
-                  ),
-                ],
-              ),
-            ),
+            Obx(() {
+              if (controller.banners.isEmpty) {
+                return const CircularProgressIndicator(); // Show loading indicator while banners load
+              }
 
+              return SizedBox(
+                height: 180,
+                child: PageView.builder(
+                  onPageChanged: controller.changePage,
+                  controller: controller
+                      .pageController, // Use the PageController from the controller
+                  itemCount: controller.banners.length,
+                  itemBuilder: (context, index) {
+                    return Image.network(
+                      controller.banners[index],
+                      fit: BoxFit.cover,
+                    );
+                  },
+                ),
+              );
+            }),
             const SizedBox(height: 20),
             // Dots Indicator
             Obx(() => Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(
-                    contents.length,
+                    controller.banners
+                        .length, // Generate dots based on the number of banners
                     (index) => buildDot(index, controller.currentBanner.value),
                   ),
                 )),
@@ -181,7 +182,7 @@ class HomeView extends GetView<HomeController> {
                   GestureDetector(
                     onTap: () {
                       Get.find<NavigationScreenController>()
-                          .selectedIndex
+                          .currentIndex
                           .value = 1;
                     },
                     child: const Text(
@@ -193,7 +194,7 @@ class HomeView extends GetView<HomeController> {
               ),
             ),
             const SizedBox(height: 10),
-// Adjusted Category ListView with Proper Height
+            // Adjusted Category ListView with Proper Height
             SizedBox(
               height: 90,
               child: ListView(
@@ -208,42 +209,55 @@ class HomeView extends GetView<HomeController> {
             ),
 
             const SizedBox(height: 20),
-// Popular Shoes Section
+            // Popular Shoes Section
             buildSectionHeader("Popular Shoes", () {
               // Add navigation to "See all" functionality here
             }),
             const SizedBox(height: 10),
-            Obx(
-              () => SizedBox(
-                height: 220, // Height for the horizontal list
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: controller.popularProducts
-                      .length, // Replace with actual data length
-                  itemBuilder: (context, index) {
-                    return buildProductCard(controller.productList[index]);
-                  },
-                ),
-              ),
-            ),
+            Obx(() {
+              return controller.isLoading.value
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : SizedBox(
+                      height: 220, // Height for the horizontal list
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: controller.popularProducts
+                            .length, // Replace with actual data length
+                        itemBuilder: (context, index) {
+                          return buildProductCard(
+                              controller.productList[index]);
+                        },
+                      ),
+                    );
+            }),
+
             const SizedBox(height: 20),
 
             // New Arrivals Section
             buildSectionHeader("New Arrivals", () {
               // Add navigation to "See all" functionality here
             }),
-
-            Obx(
-              () => ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: controller
-                    .productList.length, // Replace with actual data length
-                itemBuilder: (context, index) {
-                  return buildProductListItem(controller.productList[index]);
-                },
-              ),
-            ),
+            Obx(() {
+              if (controller.productList.isEmpty) {
+                return const Text("No products available.");
+              }
+              return controller.isLoading.value
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: controller.productList
+                          .length, // Replace with actual data length
+                      itemBuilder: (context, index) {
+                        return buildProductListItem(
+                            controller.productList[index]);
+                      },
+                    );
+            })
           ],
         ),
       ),
@@ -300,7 +314,9 @@ class HomeView extends GetView<HomeController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               FancyShimmerImage(
-                imageUrl: product.images![0],
+                imageUrl: product.images!.isNotEmpty
+                    ? product.images![0]
+                    : 'https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg',
                 height: 100,
                 width: double.infinity,
                 boxFit: BoxFit.contain,
@@ -325,13 +341,15 @@ class HomeView extends GetView<HomeController> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "${product.price}MMK",
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontSize: 16),
-                        ),
+                        product.sizes != null && product.sizes!.isNotEmpty
+                            ? Text(
+                                "${product.sizes![0]['price']}MMK",
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                    fontSize: 16),
+                              )
+                            : const Text("NO sizes")
                       ],
                     ),
                   ],
@@ -367,7 +385,9 @@ class HomeView extends GetView<HomeController> {
           child: Row(
             children: [
               FancyShimmerImage(
-                imageUrl: product.images![0],
+                imageUrl: product.images!.isNotEmpty
+                    ? product.images![0]
+                    : 'https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg',
                 height: 100,
                 width: 100,
                 boxFit: BoxFit.contain,
@@ -388,11 +408,14 @@ class HomeView extends GetView<HomeController> {
                         style: const TextStyle(color: Colors.blue),
                       ),
                       const SizedBox(height: 4),
-                      Text(
-                        "${product.price} MMK",
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.black),
-                      ),
+                      product.sizes != null && product.sizes!.isNotEmpty
+                          ? Text(
+                              "${product.sizes![0]['price']} MMK",
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            )
+                          : const Text('no size available'),
                     ],
                   ),
                 ),

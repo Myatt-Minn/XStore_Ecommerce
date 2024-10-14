@@ -1,12 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:xstore/app/data/brand_model.dart';
+import 'package:xstore/app/data/category_model.dart';
 import 'package:xstore/app/data/product_model.dart';
 
 class CategoryController extends GetxController {
   var selectedCategory = 'Category'.obs; // Observable for category selection
   var searchText = ''.obs; // Observable for search input
   var isFavorite = false.obs;
-
+  var brands = <BrandModel>[].obs;
+  var categories = <CategoryModel>[].obs;
   RxList<Product> productList = <Product>[].obs; // Observable list of products
   RxList<Product> productsByBrand = <Product>[].obs;
 
@@ -15,13 +18,45 @@ class CategoryController extends GetxController {
     super.onInit();
     fetchProducts(); // Fetch products when the controller initializes
     getProductsByBrand('Nike');
+    fetchBrands();
+    fetchCategories();
   }
 
-  // Fetch products from Firestore based on category
-  Future<void> fetchProducts({String category = 'shoes'}) async {
+  // Fetch brands from Firestore
+  Future<void> fetchBrands() async {
     try {
+      QuerySnapshot snapshot =
+          await FirebaseFirestore.instance.collection('brand').get();
+      brands.value = snapshot.docs
+          .map((doc) => BrandModel.fromJson(doc.data() as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to fetch brands');
+    }
+  }
+
+  // Fetch categories from Firestore
+  Future<void> fetchCategories() async {
+    try {
+      QuerySnapshot snapshot =
+          await FirebaseFirestore.instance.collection('categories').get();
+      categories.value = snapshot.docs
+          .map((doc) =>
+              CategoryModel.fromJson(doc.data() as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to fetch categories');
+    }
+  }
+
+  // Fetch products from Firestore where the 'category' field matches the provided category value
+  Future<void> fetchProducts({String category = 'shoe'}) async {
+    try {
+      // Query the 'products' collection where the 'category' field matches the provided value
       QuerySnapshot snapshot = await FirebaseFirestore.instance
-          .collection(category) // Use the category as the collection name
+          .collection(
+              'new_arrivals') // Assuming the collection is named 'products'
+          .where('category', isEqualTo: category) // Filter by category field
           .get();
 
       // Map Firestore data to the Product model
@@ -29,7 +64,7 @@ class CategoryController extends GetxController {
         return Product.fromJson(doc.data() as Map<String, dynamic>);
       }).toList();
     } catch (e) {
-      Get.snackbar('Error', 'Failed to fetch products');
+      Get.snackbar('Error', 'Failed to fetch products: $e');
     }
   }
 

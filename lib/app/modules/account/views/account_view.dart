@@ -11,6 +11,7 @@ class AccountView extends GetView<AccountController> {
     AccountController controller = Get.put(AccountController());
     return Scaffold(
       appBar: AppBar(
+        leading: const Icon(Icons.person),
         title: const Text('Account',
             style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
@@ -147,15 +148,15 @@ class AccountView extends GetView<AccountController> {
                     onChanged: (val) => controller.toggleNotifications(),
                     secondary: const Icon(Icons.notifications),
                   )),
-              ListTile(
-                title: const Text('Language'),
-                subtitle: Obx(() => Text(controller.languageSelected.value)),
-                trailing: const Icon(Icons.arrow_forward_ios),
-                onTap: () {
-                  // Show a dialog or dropdown to change the language
-                  _showLanguageSelectionDialog(context);
-                },
-              ),
+              // ListTile(
+              //   title: const Text('Language'),
+              //   subtitle: Obx(() => Text(controller.languageSelected.value)),
+              //   trailing: const Icon(Icons.arrow_forward_ios),
+              //   onTap: () {
+              //     // Show a dialog or dropdown to change the language
+              //     _showLanguageSelectionDialog(context);
+              //   },
+              // ),
               const SizedBox(height: 20),
               ListTile(
                 title: const Text('Sign Out',
@@ -170,29 +171,29 @@ class AccountView extends GetView<AccountController> {
     );
   }
 
-  void _showLanguageSelectionDialog(BuildContext context) {
-    Get.defaultDialog(
-      title: 'Select Language',
-      content: Column(
-        children: [
-          ListTile(
-            title: const Text('English'),
-            onTap: () {
-              controller.changeLanguage('English');
-              Get.back();
-            },
-          ),
-          ListTile(
-            title: const Text('Spanish'),
-            onTap: () {
-              controller.changeLanguage('Spanish');
-              Get.back();
-            },
-          ),
-        ],
-      ),
-    );
-  }
+  // void _showLanguageSelectionDialog(BuildContext context) {
+  //   Get.defaultDialog(
+  //     title: 'Select Language',
+  //     content: Column(
+  //       children: [
+  //         ListTile(
+  //           title: const Text('English'),
+  //           onTap: () {
+  //             controller.changeLanguage('English');
+  //             Get.back();
+  //           },
+  //         ),
+  //         ListTile(
+  //           title: const Text('Spanish'),
+  //           onTap: () {
+  //             controller.changeLanguage('Spanish');
+  //             Get.back();
+  //           },
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }
 
 class SettingOption extends StatelessWidget {

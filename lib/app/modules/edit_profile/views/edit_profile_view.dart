@@ -5,6 +5,7 @@ import '../controllers/edit_profile_controller.dart';
 
 class EditProfileView extends GetView<EditProfileController> {
   const EditProfileView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,30 +28,26 @@ class EditProfileView extends GetView<EditProfileController> {
                   ? const LinearProgressIndicator()
                   : Container();
             }),
-            const SizedBox(
-              height: 8,
-            ),
+            const SizedBox(height: 8),
+
             // Profile Picture
             Center(
               child: Obx(() {
                 return Stack(
                   children: [
-                    // Profile Picture inside Circle Avatar
                     CircleAvatar(
-                      radius: 60, // Adjust the size accordingly
+                      radius: 60,
                       backgroundImage:
                           controller.isProfileImageChooseSuccess.value
                               ? FileImage(controller.file)
                               : const AssetImage('images/addperson.png')
-                                  as ImageProvider, // Placeholder image
+                                  as ImageProvider,
                     ),
-                    // Camera Icon Overlay
                     Positioned(
                       bottom: 0,
                       right: 0,
                       child: GestureDetector(
                         onTap: () {
-                          // Trigger image selection
                           controller.chooseImage();
                         },
                         child: CircleAvatar(
@@ -73,15 +70,23 @@ class EditProfileView extends GetView<EditProfileController> {
             buildEditableField(
               'Full Name',
               controller.fullNameController,
+              'Please enter your full name', // Validation message
             ),
             const SizedBox(height: 15),
 
+            // Phone Number Field
+            buildEditableField(
+              'Phone Number',
+              controller.phoneController,
+              'Please enter a valid phone number', // Validation message
+            ),
             const SizedBox(height: 30),
+
             // Update Button
             ElevatedButton(
               onPressed: controller.updateUserProfile,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green[300], // Set the background color
+                backgroundColor: Colors.green[300],
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -94,8 +99,9 @@ class EditProfileView extends GetView<EditProfileController> {
     );
   }
 
-  // Reusable Widget for Editable Fields
-  Widget buildEditableField(String label, TextEditingController controller) {
+  // Reusable Widget for Editable Fields with Validation
+  Widget buildEditableField(String label, TextEditingController textcontroller,
+      String validationMessage) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -104,17 +110,23 @@ class EditProfileView extends GetView<EditProfileController> {
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 5),
-        TextField(
-          controller: controller,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: Colors.grey[200],
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide.none,
+        Obx(() {
+          return TextField(
+            controller: textcontroller,
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: Colors.grey[200],
+              errorText: controller.showError.value &&
+                      controller.isEmpty(textcontroller)
+                  ? validationMessage
+                  : null, // Show error if invalid
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide.none,
+              ),
             ),
-          ),
-        ),
+          );
+        }),
       ],
     );
   }

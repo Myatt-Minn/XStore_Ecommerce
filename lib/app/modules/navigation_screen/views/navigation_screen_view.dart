@@ -9,46 +9,67 @@ import 'package:xstore/app/modules/home/views/home_view.dart';
 import '../controllers/navigation_screen_controller.dart';
 
 class NavigationScreenView extends GetView<NavigationScreenController> {
-  const NavigationScreenView({super.key});
+  final List<Widget> _views = [
+    const HomeView(),
+    const CategoryView(),
+    const CartView(),
+    const AccountView(),
+  ];
+
+  NavigationScreenView({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final List<Widget> pages = [
-      const HomeView(),
-      const CategoryView(),
-      const CartView(),
-      const AccountView(),
-    ];
     return Scaffold(
-      // Using Obx to reactively update the selected screen
-      body: Obx(() => pages[controller.selectedIndex.value]),
+      body: Obx(() =>
+          _views[controller.currentIndex.value]), // Display the current view
       bottomNavigationBar: Obx(
         () => CurvedNavigationBar(
-          index: controller.selectedIndex.value, // Track current index
+          buttonBackgroundColor: const Color(0xFF95CCA9),
           color: const Color(0xFF2E394D),
           backgroundColor: Colors.transparent,
-          buttonBackgroundColor: const Color(0xFF95CCA9),
-          height: 60,
-          items: [
-            controller.selectedIndex.value == 0
-                ? const Icon(Icons.home, size: 30, color: Colors.white)
-                : const Icon(Icons.home_outlined, size: 30, color: Colors.grey),
-            controller.selectedIndex.value == 1
-                ? const Icon(Icons.favorite, size: 30, color: Colors.white)
-                : const Icon(Icons.favorite_border,
-                    size: 30, color: Colors.grey),
-            controller.selectedIndex.value == 2
-                ? const Icon(Icons.shopping_cart, size: 30, color: Colors.white)
-                : const Icon(Icons.shopping_cart_outlined,
-                    size: 30, color: Colors.grey),
-            controller.selectedIndex.value == 3
-                ? const Icon(Icons.person, size: 30, color: Colors.white)
-                : const Icon(Icons.person_outline,
-                    size: 30, color: Colors.grey),
+          index: controller.currentIndex.value,
+          height: 60.0,
+          items: <Widget>[
+            Icon(
+              Icons.home,
+              size: 30,
+              color: controller.currentIndex.value == 0
+                  ? Colors.black
+                  : Colors.white, // Black when selected, white otherwise
+            ),
+            Icon(
+              Icons.category,
+              size: 30,
+              color: controller.currentIndex.value == 1
+                  ? Colors.black
+                  : Colors.white, // Black when selected, white otherwise
+            ),
+            Icon(
+              Icons.shopping_cart,
+              size: 30,
+              color: controller.currentIndex.value == 2
+                  ? Colors.black
+                  : Colors.white, // Black when selected, white otherwise
+            ),
+            Icon(
+              Icons.person,
+              size: 30,
+              color: controller.currentIndex.value == 3
+                  ? Colors.black
+                  : Colors.white, // Black when selected, white otherwise
+            ),
           ],
           onTap: (index) {
-            controller.onItemTapped(index); // Change index on tap
+            // Dispose of the old controller
+            controller.disposeController(controller.currentIndex.value);
+
+            // Initialize the new controller
+            controller.initializeController(index);
+
+            // Update the current index
+            controller.currentIndex.value = index;
           },
-          animationDuration: const Duration(milliseconds: 300),
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:xstore/app/data/order_model.dart';
@@ -50,5 +51,28 @@ class OrderHistoryController extends GetxController {
     String formattedDate = DateFormat('yyyy-MM-dd').format(parsedDate);
 
     return formattedDate;
+  }
+
+  // Function to delete an order
+  Future<void> deleteOrder(String orderId) async {
+    try {
+      // Delete the order document from the "orders" collection
+      await FirebaseFirestore.instance
+          .collection('orders')
+          .doc(orderId)
+          .delete();
+      fetchOrderHistory();
+
+      Get.snackbar('Success', 'Order deleted successfully!',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green[100],
+          colorText: Colors.black);
+    } catch (e) {
+      // Handle any errors that occur during deletion
+      Get.snackbar('Error', 'Failed to delete order: $e',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red[100],
+          colorText: Colors.black);
+    }
   }
 }

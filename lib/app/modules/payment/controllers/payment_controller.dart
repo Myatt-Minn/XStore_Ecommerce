@@ -11,16 +11,40 @@ import 'package:xstore/app/modules/Cart/controllers/cart_controller.dart';
 
 class PaymentController extends GetxController {
   // Rx variables for payment options
-  var selectedPayment = ''.obs;
+
   var profileImg = "".obs;
   late File file;
   var isProfileImageChooseSuccess = false.obs;
   var isLoading = false.obs;
+  var isOrder = false.obs;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  var payments = <Map<String, dynamic>>[].obs; // List to store payment data
+  var selectedPayment = ''.obs;
 
   @override
-  void onReady() {
-    super.onReady();
+  void onInit() {
+    super.onInit();
+    fetchPayments(); // Fetch payment data when the controller initializes
     isProfileImageChooseSuccess.value = false;
+  }
+
+  // Fetch payment data from Firestore
+  void fetchPayments() async {
+    try {
+      QuerySnapshot snapshot = await firestore.collection('payments').get();
+      payments.value = snapshot.docs
+          .map((doc) => {
+                'name': doc['name'],
+                'title': doc['title'],
+                'imgUrl': doc['imgUrl'],
+                'phone':
+                    doc['phone'], // Assuming each document has a 'phone' field
+              })
+          .toList();
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to load payment options');
+    }
   }
 
   // Method to select payment method
@@ -78,8 +102,7 @@ class PaymentController extends GetxController {
   // Method to confirm the payment
   void confirmPayment() async {
     if (selectedPayment.isNotEmpty && profileImg.value != "") {
-      // Perform necessary actions such as API calls
-      // print("Payment confirmed with ${selectedPayment.value}");
+      isOrder.value = true;
       await createOrder(
           name: Get.arguments['name'],
           phoneNumber: Get.arguments['phoneNumber'],
@@ -91,9 +114,11 @@ class PaymentController extends GetxController {
           status: "Pending",
           transationUrl: profileImg.value);
       Get.toNamed('/order-success');
+      isOrder.value = false;
     } else {
       Get.snackbar(
           'Error', 'Please select a payment method and upload an image.');
+      isOrder.value = false;
     }
   }
 

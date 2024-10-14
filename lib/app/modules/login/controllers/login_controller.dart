@@ -34,13 +34,10 @@ class LoginController extends GetxController {
 
     try {
       // Attempt to sign in with email and password
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+      await _auth.signInWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
-
-      // If successful, navigate to the home page
-      Get.offAllNamed('/home');
     } on FirebaseAuthException catch (e) {
       // Handle login errors
       if (e.code == 'user-not-found') {

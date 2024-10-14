@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xstore/app/data/cart_model.dart';
+import 'package:xstore/app/data/consts_config.dart';
 import 'package:xstore/app/modules/Cart/controllers/cart_controller.dart';
 
-class CheckOutView extends GetView<CartController> {
+import '../controllers/check_out_controller.dart';
+
+class CheckOutView extends GetView<CheckOutController> {
   const CheckOutView({super.key});
 
   @override
@@ -159,12 +162,18 @@ class CheckOutView extends GetView<CartController> {
                                 fontSize: 14,
                                 color: Colors.black)),
                         const SizedBox(height: 5),
-                        const Text(
-                          '500,000 MMK',
-                          style: TextStyle(fontSize: 14, color: Colors.black),
+                        Text(
+                          '${item.price} MMK',
+                          style: const TextStyle(
+                              fontSize: 14, color: Colors.black),
                         ),
                         Text(
-                          'Size: ${item.size}   Color: ${item.color}',
+                          'Size: ${item.size}',
+                          style: const TextStyle(
+                              fontSize: 14, color: Colors.black),
+                        ),
+                        Text(
+                          'Quantity: ${item.quantity}',
                           style: const TextStyle(
                               fontSize: 14, color: Colors.black),
                         ),
@@ -188,9 +197,8 @@ class CheckOutView extends GetView<CartController> {
           return Column(
             children: [
               _summaryRow('Subtotal', '${cartController.totalAmount} MMK'),
-              _summaryRow(
-                  'Delivery Fees', '${cartController.deliveryfees} MMK'),
-              _summaryRow('Total Cost', '${cartController.finaltotalCost} MMK'),
+              _summaryRow('Delivery Fees', '${ConstsConfig.deliveryfee} MMK'),
+              _summaryRow('Total Cost', '${controller.finaltotalcost} MMK'),
             ],
           );
         }),
@@ -198,18 +206,22 @@ class CheckOutView extends GetView<CartController> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Expanded(
-              child: _buildPaymentButton(
-                label: 'Cash on Delivery',
-                color: Colors.grey[800]!,
-                onPressed: () {
-                  controller.setOrder()
-                      ? controller.confirmPayment()
-                      : Get.snackbar("Empty TextBox",
-                          "Please fill all informations first.");
-                },
-              ),
-            ),
+            Obx(() {
+              return controller.isLoading.value
+                  ? const CircularProgressIndicator()
+                  : Expanded(
+                      child: _buildPaymentButton(
+                        label: 'Cash on Delivery',
+                        color: Colors.grey[800]!,
+                        onPressed: () {
+                          controller.setOrder()
+                              ? controller.confirmPayment()
+                              : Get.snackbar("Empty TextBox",
+                                  "Please fill all informations first.");
+                        },
+                      ),
+                    );
+            }),
             const SizedBox(width: 10),
             Expanded(
               child: _buildPaymentButton(
@@ -221,7 +233,7 @@ class CheckOutView extends GetView<CartController> {
                           "name": controller.nameController.text,
                           "phoneNumber": controller.phoneNumberController.text,
                           "address": controller.addressController.text,
-                          "totalCost": controller.finaltotalCost
+                          "totalCost": controller.finaltotalcost
                         })
                       : Get.snackbar("Empty TextBox",
                           "Please fill all informations first.");

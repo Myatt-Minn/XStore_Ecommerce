@@ -10,10 +10,9 @@ class CartView extends GetView<CartController> {
 
   @override
   Widget build(BuildContext context) {
-    final CartController controller = Get.put(CartController());
-
     return Scaffold(
       appBar: AppBar(
+        leading: const Icon(Icons.shopping_cart),
         title: const Text('My Cart',
             style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
@@ -94,6 +93,11 @@ class CartView extends GetView<CartController> {
                                       style:
                                           const TextStyle(color: Colors.black),
                                     ),
+                                    Text(
+                                      'Size: ${item.size}',
+                                      style:
+                                          const TextStyle(color: Colors.black),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -108,14 +112,6 @@ class CartView extends GetView<CartController> {
                                 children: [
                                   Row(
                                     children: [
-                                      IconButton(
-                                        onPressed: () {
-                                          controller.decreaseQuantity(index);
-                                        },
-                                        icon: const Icon(
-                                            Icons.remove_circle_outline,
-                                            color: Colors.red),
-                                      ),
                                       Container(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 12, vertical: 4),
@@ -132,14 +128,6 @@ class CartView extends GetView<CartController> {
                                             fontSize: 16,
                                           ),
                                         ),
-                                      ),
-                                      IconButton(
-                                        onPressed: () {
-                                          controller.increaseQuantity(index);
-                                        },
-                                        icon: const Icon(
-                                            Icons.add_circle_outline,
-                                            color: Colors.green),
                                       ),
                                     ],
                                   ),

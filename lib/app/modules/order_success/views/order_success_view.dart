@@ -59,6 +59,7 @@ class OrderSuccessView extends GetView<OrderSuccessController> {
                 ),
                 onPressed: () {
                   // Navigate to shopping or home
+
                   Get.back();
                 },
                 child: const Text(
