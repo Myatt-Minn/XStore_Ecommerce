@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xstore/app/data/product_model.dart';
 import 'package:xstore/app/modules/Cart/controllers/cart_controller.dart';
+import 'package:xstore/app/modules/category/controllers/category_controller.dart';
 import 'package:xstore/app/modules/navigation_screen/controllers/navigation_screen_controller.dart';
 
 import '../controllers/home_controller.dart';
@@ -13,6 +14,7 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     final cartController = Get.put(CartController());
+    final categoryController = Get.put(CategoryController());
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -98,8 +100,7 @@ class HomeView extends GetView<HomeController> {
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: GestureDetector(
                 onTap: () {
-                  Get.find<NavigationScreenController>().currentIndex.value =
-                      1; // Navigate to filter screen
+                  Get.find<NavigationScreenController>().currentIndex.value = 1;
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(

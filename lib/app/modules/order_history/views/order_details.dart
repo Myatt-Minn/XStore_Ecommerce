@@ -67,7 +67,7 @@ class OrderDetails extends GetView<OrderHistoryController> {
           ),
           Text(
             order.totalPrice!.toString(),
-            style: const TextStyle(fontSize: 16, color: Colors.black54),
+            style: const TextStyle(fontSize: 16),
           ),
         ]),
         Column(
@@ -82,7 +82,6 @@ class OrderDetails extends GetView<OrderHistoryController> {
             ),
             Text(
               controller.formatDate(order.orderDate!),
-              style: const TextStyle(color: Colors.black54),
             ),
           ],
         ),
@@ -118,7 +117,9 @@ class OrderDetails extends GetView<OrderHistoryController> {
                       child: Text(
                         orderitem.name,
                         style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
                       ),
                     ),
                     Text(
@@ -153,7 +154,8 @@ class OrderDetails extends GetView<OrderHistoryController> {
         children: [
           const Text(
             "Payment Type",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
           ),
           const SizedBox(height: 8),
           Row(
@@ -162,7 +164,7 @@ class OrderDetails extends GetView<OrderHistoryController> {
             children: [
               Text(
                 order.paymentMethod!,
-                style: const TextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: 16, color: Colors.black),
               ),
             ],
           ),
@@ -183,7 +185,8 @@ class OrderDetails extends GetView<OrderHistoryController> {
         children: [
           const Text(
             "Transition Image",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
           ),
           const SizedBox(height: 8),
           Image.network(
@@ -211,7 +214,10 @@ class OrderDetails extends GetView<OrderHistoryController> {
             children: [
               const Text(
                 "Name",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
               ),
               const SizedBox(height: 8),
               Text(
@@ -226,7 +232,10 @@ class OrderDetails extends GetView<OrderHistoryController> {
             children: [
               const Text(
                 "Phone Number",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
               ),
               const SizedBox(height: 8),
               Text(
@@ -241,7 +250,10 @@ class OrderDetails extends GetView<OrderHistoryController> {
             children: [
               const Text(
                 "Address",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
               ),
               const SizedBox(height: 8),
               Text(

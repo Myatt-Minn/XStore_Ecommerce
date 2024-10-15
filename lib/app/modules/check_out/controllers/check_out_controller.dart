@@ -179,9 +179,6 @@ class CheckOutController extends GetxController {
         }
       }
 
-      // Clear the cart after a successful order
-      Get.find<CartController>().clearCart(); // Clear the cart
-
       print("Order created, stock updated, and cart cleared successfully!");
     } catch (e) {
       Get.snackbar("Error", "Sorry, Error creating order: $e");

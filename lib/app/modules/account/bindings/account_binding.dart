@@ -5,6 +5,6 @@ import '../controllers/account_controller.dart';
 class AcountBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put(AccountController());
+    Get.put(AccountController(), permanent: true);
   }
 }

@@ -80,20 +80,6 @@ class CustomerListView extends GetView<CustomerListController> {
                                     DataCell(Text(useritem.name)),
                                     DataCell(Text(useritem.email)),
                                     DataCell(Text(useritem.role)),
-                                    DataCell(
-                                      Row(
-                                        children: [
-                                          IconButton(
-                                            icon: const Icon(Icons.delete,
-                                                color: Colors.red),
-                                            onPressed: () {
-                                              controller
-                                                  .deletecustomer(useritem.uid);
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    ),
                                   ],
                                 );
                               },

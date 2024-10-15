@@ -8,7 +8,6 @@ class AccountView extends GetView<AccountController> {
   const AccountView({super.key});
   @override
   Widget build(BuildContext context) {
-    AccountController controller = Get.put(AccountController());
     return Scaffold(
       appBar: AppBar(
         leading: const Icon(Icons.person),

@@ -44,9 +44,6 @@ class NavigationScreenController extends GetxController {
       case 2:
         Get.delete<CartController>();
         break;
-      case 3:
-        Get.delete<AccountController>();
-        break;
     }
   }
 }

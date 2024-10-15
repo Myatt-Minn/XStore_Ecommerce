@@ -9,7 +9,7 @@ class AccountController extends GetxController {
   var username = ''.obs;
   var email = ''.obs;
   var phone = ''.obs;
-  var goDarkMode = false.obs;
+  var goDarkMode = true.obs;
   var notificationsEnabled = true.obs;
   var languageSelected = 'English'.obs;
   var isProfileImageChooseSuccess = false.obs;
@@ -21,6 +21,7 @@ class AccountController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    goDarkMode.value = false;
     fetchProfilePic(); // Fetch profile pic when the controller initializes
   }
 
