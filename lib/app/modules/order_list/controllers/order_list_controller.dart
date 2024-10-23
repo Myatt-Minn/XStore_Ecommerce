@@ -47,6 +47,43 @@ class OrderListController extends GetxController {
     }
   }
 
+  Future<void> confirmOrder(String orderId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('orders')
+          .doc(orderId)
+          .update({'status': 'Confirmed'});
+
+      Get.back();
+      fetchOrders();
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to confirm order: $e');
+    }
+  }
+
+  void showConfirmDialog(String orderId) {
+    Get.dialog(
+      AlertDialog(
+        title: const Text('Confirm Order?'),
+        content: const Text('Are you sure you want to confirm this order?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Get.back(); // Close the dialog without any action
+            },
+            child: const Text('No'),
+          ),
+          TextButton(
+            onPressed: () async {
+              await confirmOrder(orderId);
+            },
+            child: const Text('Yes'),
+          ),
+        ],
+      ),
+    );
+  }
+
   Future<void> deleteorder(String orderId) async {
     try {
       // Delete the order document from the "orders" collection

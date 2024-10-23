@@ -100,7 +100,7 @@ class ProductListView extends GetView<ProductListController> {
                                             icon: const Icon(Icons.edit,
                                                 color: Colors.blue),
                                             onPressed: () {
-                                              Get.toNamed('/edit-product',
+                                              Get.toNamed('/edit-products',
                                                   arguments: productitem.id);
                                             },
                                           ),

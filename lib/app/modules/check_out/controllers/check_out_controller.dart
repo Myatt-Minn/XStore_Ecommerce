@@ -178,8 +178,6 @@ class CheckOutController extends GetxController {
           });
         }
       }
-
-      print("Order created, stock updated, and cart cleared successfully!");
     } catch (e) {
       Get.snackbar("Error", "Sorry, Error creating order: $e");
     }

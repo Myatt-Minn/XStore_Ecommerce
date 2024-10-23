@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:xstore/app/data/sendNotificationHandler.dart';
 import 'package:xstore/app/modules/Cart/controllers/cart_controller.dart';
 import 'package:xstore/app/modules/account/controllers/account_controller.dart';
 import 'package:xstore/app/modules/category/controllers/category_controller.dart';
@@ -9,9 +10,10 @@ class NavigationScreenController extends GetxController {
   var currentIndex = 0.obs;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     initializeController(currentIndex.value);
+    await SendNotificationHandler().initNotification();
   }
 
   void initializeController(int index) {

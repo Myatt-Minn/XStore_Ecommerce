@@ -60,16 +60,22 @@ class HomeController extends GetxController {
     try {
       // Reference to your Firestore collection
       isLoading.value = true;
-      QuerySnapshot snapshot =
-          await FirebaseFirestore.instance.collection('new_arrivals').get();
+
+      // Query Firestore to get only products where "popular" is true
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('new_arrivals')
+          .where('popular', isEqualTo: true) // Filter for popular products
+          .get();
 
       // Map Firestore data to the Product model
       popularProducts.value = snapshot.docs.map((doc) {
         return Product.fromJson(doc.data() as Map<dynamic, dynamic>);
       }).toList();
+
       isLoading.value = false;
     } catch (e) {
-      Get.snackbar('Error', 'Failed to fetch products');
+      isLoading.value = false;
+      Get.snackbar('Error', 'Failed to fetch popular products');
     }
   }
 

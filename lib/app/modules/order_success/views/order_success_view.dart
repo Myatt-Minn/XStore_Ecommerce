@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xstore/app/modules/Cart/controllers/cart_controller.dart';
 
 import '../controllers/order_success_controller.dart';
 
@@ -59,8 +60,9 @@ class OrderSuccessView extends GetView<OrderSuccessController> {
                 ),
                 onPressed: () {
                   // Navigate to shopping or home
-
-                  Get.back();
+                  Get.find<CartController>().cartItems.clear();
+                  Get.find<CartController>().totalAmount.value = 0;
+                  Get.offAndToNamed('/navigation-screen');
                 },
                 child: const Text(
                   'Back to Shopping',

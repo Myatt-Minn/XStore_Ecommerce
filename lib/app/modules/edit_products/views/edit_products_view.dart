@@ -3,19 +3,19 @@ import 'dart:io';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:xstore/app/modules/product_list/controllers/product_list_controller.dart';
+import 'package:xstore/app/modules/edit_products/controllers/edit_products_controller.dart';
 
-class EditProductView extends GetView<ProductListController> {
+class EditProductsView extends GetView<EditProductsController> {
   final String productId = Get.arguments; // The ID of the product to edit
 
-  EditProductView({super.key});
+  EditProductsView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Product'),
-        backgroundColor: const Color(0xFF2E394D),
+        backgroundColor: const Color(0xFF95CCA9),
         centerTitle: true,
       ),
       body: FutureBuilder(
@@ -110,7 +110,14 @@ class EditProductView extends GetView<ProductListController> {
                       );
                     }),
                     const SizedBox(height: 16),
-
+                    Obx(() => CheckboxListTile(
+                          title: const Text("Popular"),
+                          value: controller.isPopular.value,
+                          onChanged: (bool? newValue) {
+                            controller.isPopular.value = newValue!;
+                          },
+                        )),
+                    const SizedBox(height: 16),
                     // Input fields for size, price, and quantity
                     Row(
                       children: [
@@ -275,20 +282,25 @@ class EditProductView extends GetView<ProductListController> {
                     const SizedBox(height: 16),
 
                     // Button to update product in Firestore
-                    ElevatedButton(
-                      onPressed: () {
-                        if (controller.formKey.currentState!.validate()) {
-                          controller.updateProductInFirestore(productId);
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF2E394D),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 16.0,
-                          horizontal: 32.0,
-                        ),
-                      ),
-                      child: const Text('Update Product'),
+                    Center(
+                      child: ElevatedButton(
+                          onPressed: () {
+                            if (controller.formKey.currentState!.validate()) {
+                              controller.updateProductInFirestore(productId);
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF95CCA9),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 16.0,
+                              horizontal: 32.0,
+                            ),
+                          ),
+                          child: Obx(
+                            () => controller.isLoading.value
+                                ? const CircularProgressIndicator()
+                                : const Text('Update Product'),
+                          )),
                     ),
                   ],
                 ),

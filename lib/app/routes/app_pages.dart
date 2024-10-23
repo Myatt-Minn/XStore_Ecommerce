@@ -1,33 +1,37 @@
 import 'package:get/get.dart';
-import 'package:xstore/app/modules/banner_list/views/add_banner.dart';
-import 'package:xstore/app/modules/brand_list/views/add_brand.dart';
-import 'package:xstore/app/modules/category_list/views/add_category.dart';
-import 'package:xstore/app/modules/payment_list/views/add_payment.dart';
-import 'package:xstore/app/modules/product_list/views/edit_product.dart';
 
 import '../modules/Cart/bindings/cart_binding.dart';
 import '../modules/Cart/views/cart_view.dart';
+import '../modules/SendNotification/bindings/send_notification_binding.dart';
+import '../modules/SendNotification/views/send_notification_view.dart';
 import '../modules/account/bindings/account_binding.dart';
 import '../modules/account/views/account_view.dart';
 import '../modules/admin_dashboard/bindings/admin_dashboard_binding.dart';
 import '../modules/admin_dashboard/views/admin_dashboard_view.dart';
 import '../modules/admin_panel/bindings/admin_panel_binding.dart';
 import '../modules/admin_panel/views/admin_panel_view.dart';
+import '../modules/all_products/bindings/all_products_binding.dart';
+import '../modules/all_products/views/all_products_view.dart';
 import '../modules/auth_gate/bindings/auth_gate_binding.dart';
 import '../modules/auth_gate/views/auth_gate_view.dart';
 import '../modules/auth_gate/views/no_internet.dart';
 import '../modules/banner_list/bindings/banner_list_binding.dart';
+import '../modules/banner_list/views/add_banner.dart';
 import '../modules/banner_list/views/banner_list_view.dart';
 import '../modules/brand_list/bindings/brand_list_binding.dart';
+import '../modules/brand_list/views/add_brand.dart';
 import '../modules/brand_list/views/brand_list_view.dart';
 import '../modules/category/bindings/category_binding.dart';
 import '../modules/category/views/category_view.dart';
 import '../modules/category_list/bindings/category_list_binding.dart';
+import '../modules/category_list/views/add_category.dart';
 import '../modules/category_list/views/category_list_view.dart';
 import '../modules/check_out/bindings/check_out_binding.dart';
 import '../modules/check_out/views/check_out_view.dart';
 import '../modules/customer_list/bindings/customer_list_binding.dart';
 import '../modules/customer_list/views/customer_list_view.dart';
+import '../modules/edit_products/bindings/edit_products_binding.dart';
+import '../modules/edit_products/views/edit_products_view.dart';
 import '../modules/edit_profile/bindings/edit_profile_binding.dart';
 import '../modules/edit_profile/views/edit_profile_view.dart';
 import '../modules/forgot_password/bindings/forgot_password_binding.dart';
@@ -38,6 +42,8 @@ import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/navigation_screen/bindings/navigation_screen_binding.dart';
 import '../modules/navigation_screen/views/navigation_screen_view.dart';
+import '../modules/notification/bindings/notification_binding.dart';
+import '../modules/notification/views/notification_view.dart';
 import '../modules/onboarding/bindings/onboarding_binding.dart';
 import '../modules/onboarding/views/onboarding_view.dart';
 import '../modules/order_history/bindings/order_history_binding.dart';
@@ -50,7 +56,10 @@ import '../modules/order_success/views/order_success_view.dart';
 import '../modules/payment/bindings/payment_binding.dart';
 import '../modules/payment/views/payment_view.dart';
 import '../modules/payment_list/bindings/payment_list_binding.dart';
+import '../modules/payment_list/views/add_payment.dart';
 import '../modules/payment_list/views/payment_list_view.dart';
+import '../modules/popular_products/bindings/popular_products_binding.dart';
+import '../modules/popular_products/views/popular_products_view.dart';
 import '../modules/product_details/bindings/product_details_binding.dart';
 import '../modules/product_details/views/product_details_view.dart';
 import '../modules/product_list/bindings/product_list_binding.dart';
@@ -222,11 +231,6 @@ class AppPages {
       binding: CheckOutBinding(),
     ),
     GetPage(
-      name: _Paths.EDIT_PRODUCT,
-      page: () => EditProductView(),
-      binding: ProductListBinding(),
-    ),
-    GetPage(
       name: _Paths.ADD_CATEGORY,
       page: () => const AddCategoryView(),
       binding: CategoryListBinding(),
@@ -245,6 +249,31 @@ class AppPages {
       name: _Paths.ADD_BANNER,
       page: () => const AddbannerView(),
       binding: BannerListBinding(),
+    ),
+    GetPage(
+      name: _Paths.EDIT_PRODUCTS,
+      page: () => EditProductsView(),
+      binding: EditProductsBinding(),
+    ),
+    GetPage(
+      name: _Paths.ALL_PRODUCTS,
+      page: () => const AllProductsView(),
+      binding: AllProductsBinding(),
+    ),
+    GetPage(
+      name: _Paths.POPULAR_PRODUCTS,
+      page: () => const PopularProductsView(),
+      binding: PopularProductsBinding(),
+    ),
+    GetPage(
+      name: _Paths.SEND_NOTIFICATION,
+      page: () => const SendNotificationView(),
+      binding: SendNotificationBinding(),
+    ),
+    GetPage(
+      name: _Paths.NOTIFICATION,
+      page: () => const NotificationView(),
+      binding: NotificationBinding(),
     ),
   ];
 }

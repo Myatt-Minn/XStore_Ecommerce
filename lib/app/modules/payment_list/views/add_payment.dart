@@ -31,7 +31,7 @@ class AddpaymentView extends GetView<PaymentListController> {
               TextField(
                 controller: controller.titleController,
                 decoration: InputDecoration(
-                  hintText: 'payment Title',
+                  hintText: 'Payment Title',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
                   ),

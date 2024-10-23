@@ -88,6 +88,14 @@ class OrderListView extends GetView<OrderListController> {
                                             },
                                           ),
                                           IconButton(
+                                            icon: const Icon(Icons.check,
+                                                color: Colors.green),
+                                            onPressed: () {
+                                              controller.showConfirmDialog(
+                                                  orderitem.orderId!);
+                                            },
+                                          ),
+                                          IconButton(
                                             icon: const Icon(Icons.delete,
                                                 color: Colors.red),
                                             onPressed: () {

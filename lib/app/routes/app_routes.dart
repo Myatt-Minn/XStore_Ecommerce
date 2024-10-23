@@ -30,6 +30,11 @@ abstract class Routes {
   static const BANNER_LIST = _Paths.BANNER_LIST;
   static const PAYMENT_LIST = _Paths.PAYMENT_LIST;
   static const CHECK_OUT = _Paths.CHECK_OUT;
+  static const EDIT_PRODUCTS = _Paths.EDIT_PRODUCTS;
+  static const ALL_PRODUCTS = _Paths.ALL_PRODUCTS;
+  static const POPULAR_PRODUCTS = _Paths.POPULAR_PRODUCTS;
+  static const SEND_NOTIFICATION = _Paths.SEND_NOTIFICATION;
+  static const NOTIFICATION = _Paths.NOTIFICATION;
 }
 
 abstract class _Paths {
@@ -63,9 +68,14 @@ abstract class _Paths {
   static const PAYMENT_LIST = '/payment-list';
   static const ADD_PRODUCT = '/add-product';
   static const CHECK_OUT = '/check-out';
-  static const EDIT_PRODUCT = '/edit-product';
+
   static const ADD_CATEGORY = '/add-category';
   static const ADD_BRAND = '/add-brand';
   static const ADD_PAYMENT = '/add-payment';
   static const ADD_BANNER = '/add-banner';
+  static const EDIT_PRODUCTS = '/edit-products';
+  static const ALL_PRODUCTS = '/all-products';
+  static const POPULAR_PRODUCTS = '/popular-products';
+  static const SEND_NOTIFICATION = '/send-notification';
+  static const NOTIFICATION = '/notification';
 }

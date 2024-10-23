@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -26,6 +27,15 @@ class AdminPanelView extends GetView<AdminPanelController> {
               () => Get.toNamed('/banner-list')),
           buildMenuItem(context, Icons.payment, 'Payment', Colors.grey,
               () => Get.toNamed('/payment-list')),
+          buildMenuItem(context, Icons.message, 'SendNotification', Colors.grey,
+              () => Get.toNamed('/send-notification')),
+          buildMenuItem(
+            context,
+            Icons.logout,
+            'LogOut',
+            Colors.grey,
+            () => FirebaseAuth.instance.signOut(),
+          )
         ],
       ),
     );

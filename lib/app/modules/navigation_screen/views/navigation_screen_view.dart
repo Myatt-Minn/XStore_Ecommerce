@@ -39,7 +39,7 @@ class NavigationScreenView extends GetView<NavigationScreenController> {
                   : Colors.white, // Black when selected, white otherwise
             ),
             Icon(
-              Icons.category,
+              Icons.search_outlined,
               size: 30,
               color: controller.currentIndex.value == 1
                   ? Colors.black

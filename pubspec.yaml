@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  badges: ^3.1.2
   cloud_firestore: ^5.4.1
   connectivity_plus: ^2.3.5
   cupertino_icons: ^1.0.6
@@ -48,20 +49,20 @@ dependencies:
   get: ^4.6.6
   get_storage: ^2.1.1
   getwidget: ^4.0.0
+  googleapis_auth: ^1.6.0
   http: ^1.2.2
   icons_launcher: ^2.1.7
   image_picker: ^1.1.2
   intl: ^0.19.0
+  showcaseview: ^3.0.0
   url_launcher: ^6.3.0
   uuid: ^4.5.1
-  showcaseview: ^3.0.0
 
 dev_dependencies:
-  flutter_lints: ^4.0.0
   flutter_launcher_icons: "^0.14.1"
+  flutter_lints: ^4.0.0
   flutter_test:
     sdk: flutter
-
 
 flutter_launcher_icons:
   android: "launcher_icon"

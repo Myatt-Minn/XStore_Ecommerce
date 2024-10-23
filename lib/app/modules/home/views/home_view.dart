@@ -2,9 +2,9 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xstore/app/data/product_model.dart';
-import 'package:xstore/app/modules/Cart/controllers/cart_controller.dart';
 import 'package:xstore/app/modules/category/controllers/category_controller.dart';
 import 'package:xstore/app/modules/navigation_screen/controllers/navigation_screen_controller.dart';
+import 'package:xstore/app/modules/notification/controllers/notification_controller.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -13,7 +13,7 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    final cartController = Get.put(CartController());
+    final notificationController = Get.put(NotificationController());
     final categoryController = Get.put(CategoryController());
 
     return Scaffold(
@@ -55,15 +55,12 @@ class HomeView extends GetView<HomeController> {
                   Obx(() => Stack(
                         children: [
                           IconButton(
-                            icon: const Icon(Icons.shopping_cart),
+                            icon: const Icon(Icons.notifications),
                             onPressed: () {
-                              // Navigate to Cart Page
-                              Get.find<NavigationScreenController>()
-                                  .currentIndex
-                                  .value = 2;
+                              Get.toNamed('/notification');
                             },
                           ),
-                          if (cartController.itemCount >
+                          if (notificationController.itemCount >
                               0) // Show badge only if there are items
                             Positioned(
                               right: 8,
@@ -79,7 +76,7 @@ class HomeView extends GetView<HomeController> {
                                   minHeight: 16,
                                 ),
                                 child: Text(
-                                  '${cartController.itemCount}',
+                                  '${notificationController.itemCount}',
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 12,
@@ -100,7 +97,7 @@ class HomeView extends GetView<HomeController> {
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: GestureDetector(
                 onTap: () {
-                  Get.find<NavigationScreenController>().currentIndex.value = 1;
+                  Get.toNamed('all-products');
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(
@@ -124,9 +121,7 @@ class HomeView extends GetView<HomeController> {
                       IconButton(
                         icon: const Icon(Icons.filter_list),
                         onPressed: () {
-                          Get.find<NavigationScreenController>()
-                              .currentIndex
-                              .value = 1; // Navigate to filter screen
+                          Get.toNamed('all-products');
                         },
                       ),
                     ],
@@ -211,8 +206,8 @@ class HomeView extends GetView<HomeController> {
 
             const SizedBox(height: 20),
             // Popular Shoes Section
-            buildSectionHeader("Popular Shoes", () {
-              // Add navigation to "See all" functionality here
+            buildSectionHeader("Popular Products", () {
+              Get.toNamed('popular-products');
             }),
             const SizedBox(height: 10),
             Obx(() {
@@ -228,7 +223,7 @@ class HomeView extends GetView<HomeController> {
                             .length, // Replace with actual data length
                         itemBuilder: (context, index) {
                           return buildProductCard(
-                              controller.productList[index]);
+                              controller.popularProducts[index]);
                         },
                       ),
                     );
@@ -238,7 +233,7 @@ class HomeView extends GetView<HomeController> {
 
             // New Arrivals Section
             buildSectionHeader("New Arrivals", () {
-              // Add navigation to "See all" functionality here
+              Get.toNamed('all-products');
             }),
             Obx(() {
               if (controller.productList.isEmpty) {
@@ -280,8 +275,11 @@ class HomeView extends GetView<HomeController> {
             onTap: onSeeAll,
             child: const Row(
               children: [
-                Text("See all", style: TextStyle(color: Colors.grey)),
-                Icon(Icons.arrow_forward_ios, size: 12, color: Colors.grey),
+                Text(
+                  "See all ",
+                  style: TextStyle(color: Colors.blue),
+                ),
+                Icon(Icons.arrow_forward_ios, size: 12, color: Colors.blue),
               ],
             ),
           ),

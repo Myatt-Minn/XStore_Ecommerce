@@ -11,7 +11,7 @@ class AddProductView extends GetView<ProductListController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Admin Dashboard'),
+        title: const Text('Add Product'),
         backgroundColor: const Color(0xFF95CCA9),
         centerTitle: true,
       ),
@@ -110,7 +110,13 @@ class AddProductView extends GetView<ProductListController> {
                   );
                 }),
                 const SizedBox(height: 16),
-
+                Obx(() => CheckboxListTile(
+                      title: const Text("Popular"),
+                      value: controller.isPopular.value,
+                      onChanged: (bool? newValue) {
+                        controller.isPopular.value = newValue!;
+                      },
+                    )),
                 // Input fields for size, price, and quantity (No validation here)
                 Row(
                   children: [

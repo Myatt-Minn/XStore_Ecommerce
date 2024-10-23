@@ -58,7 +58,6 @@ class CustomerListView extends GetView<CustomerListController> {
                               DataColumn(label: Text('User Name')),
                               DataColumn(label: Text('User Email')),
                               DataColumn(label: Text('User Role')),
-                              DataColumn(label: Text('Actions')),
                             ],
                             rows: List.generate(
                               controller.filteredList
