@@ -3,15 +3,20 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xstore/app/data/category_model.dart';
 import 'package:xstore/app/data/product_model.dart';
+import 'package:xstore/app/modules/notification/controllers/notification_controller.dart';
 
 class HomeController extends GetxController {
   //TODO: Implement HomeController
-  RxList<Product> productList = <Product>[].obs;
+  RxList<Product> productList = <Product>[
+    Product(),
+  ].obs;
   RxList<Product> popularProducts = <Product>[].obs;
+  RxList<CategoryModel> categories = <CategoryModel>[].obs;
   late PageController pageController;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-
+  final notiController = Get.put(NotificationController());
   // List to store banner URLs
   var banners = <String>[].obs;
 
@@ -26,6 +31,21 @@ class HomeController extends GetxController {
     pageController = PageController(initialPage: currentBanner.value);
     fetchProducts();
     fetchPopular();
+    fetchCategories();
+  }
+
+  // Fetch categories from Firestore
+  Future<void> fetchCategories() async {
+    try {
+      QuerySnapshot snapshot =
+          await FirebaseFirestore.instance.collection('categories').get();
+      categories.value = snapshot.docs
+          .map((doc) =>
+              CategoryModel.fromJson(doc.data() as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to fetch categories');
+    }
   }
 
   Future<void> fetchProducts() async {
@@ -115,5 +135,6 @@ class HomeController extends GetxController {
   void onClose() {
     super.onClose();
     pageController.dispose();
+    notiController.dispose();
   }
 }

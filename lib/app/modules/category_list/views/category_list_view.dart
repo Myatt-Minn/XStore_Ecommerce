@@ -2,6 +2,7 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xstore/app/data/app_widgets.dart';
+import 'package:xstore/app/data/consts_config.dart';
 
 import '../controllers/category_list_controller.dart';
 
@@ -11,8 +12,14 @@ class CategoryListView extends GetView<CategoryListController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Categories List'),
-        backgroundColor: const Color(0xFF95CCA9), // Matching the appbar color
+        title: const Text(
+          'Categories List',
+          style: TextStyle(color: Colors.black),
+        ),
+        iconTheme: const IconThemeData(
+          color: Colors.black, // Set your desired color here
+        ),
+        backgroundColor: ConstsConfig.primarycolor, // Matching the appbar color
       ),
       drawer: const AdminDrawer(),
       body: Padding(
@@ -28,10 +35,16 @@ class CategoryListView extends GetView<CategoryListController> {
                     // Add product action
                     Get.toNamed('/add-category');
                   },
-                  icon: const Icon(Icons.add),
-                  label: const Text('Add Category +'),
+                  icon: const Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  ),
+                  label: const Text(
+                    'Add Category',
+                    style: TextStyle(color: Colors.white),
+                  ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF95CCA9),
+                    backgroundColor: ConstsConfig.secondarycolor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),

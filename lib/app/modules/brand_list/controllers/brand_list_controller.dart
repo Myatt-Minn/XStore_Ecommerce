@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:xstore/app/data/brand_model.dart';
+import 'package:xstore/app/data/consts_config.dart';
 
 class BrandListController extends GetxController {
   //TODO: Implement BrandListController
@@ -64,7 +65,7 @@ class BrandListController extends GetxController {
 
       Get.snackbar('Success', 'brand deleted successfully!',
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green[100],
+          backgroundColor: ConstsConfig.primarycolor,
           colorText: Colors.black);
     } catch (e) {
       // Handle any errors that occur during deletion
@@ -108,7 +109,7 @@ class BrandListController extends GetxController {
 
         Get.snackbar('Success', 'brand added successfully!',
             snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.green[100],
+            backgroundColor: ConstsConfig.primarycolor,
             colorText: Colors.black);
         isLoading.value = false;
         // Clear input fields

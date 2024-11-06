@@ -1,21 +1,19 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class NotificationModel {
+  final String id;
   final String title;
   final String body;
-  final Timestamp receivedAt;
 
   NotificationModel({
+    required this.id,
     required this.title,
     required this.body,
-    required this.receivedAt,
   });
 
-  factory NotificationModel.fromDocument(DocumentSnapshot doc) {
+  factory NotificationModel.fromDocument(Map<String, dynamic> doc) {
     return NotificationModel(
+      id: doc['id'],
       title: doc['title'],
       body: doc['body'],
-      receivedAt: doc['receivedAt'],
     );
   }
 }

@@ -81,7 +81,7 @@ class OrderDetails extends GetView<OrderHistoryController> {
               height: 5,
             ),
             Text(
-              controller.formatDate(order.orderDate!),
+              controller.formatDate(order.orderDate!.toString()),
             ),
           ],
         ),
@@ -174,27 +174,35 @@ class OrderDetails extends GetView<OrderHistoryController> {
   }
 
   Widget _buildTransitionImage(OrderItem order) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.grey[100],
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            "Transition Image",
-            style: TextStyle(
-                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
-          ),
-          const SizedBox(height: 8),
-          Image.network(
-            order.transationUrl!,
-            height: 100,
-          ),
-          const SizedBox(height: 8),
-        ],
+    return GestureDetector(
+      onTap: () {
+        // Navigate to the full-screen image view
+        Get.toNamed('/full-screen-image', arguments: order.transationUrl!);
+      },
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.grey[100],
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Transition Image",
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+            ),
+            const SizedBox(height: 8),
+            Image.network(
+              order.transationUrl!,
+              height: 100,
+            ),
+            const SizedBox(height: 8),
+          ],
+        ),
       ),
     );
   }

@@ -4,11 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:xstore/app/data/consts_config.dart';
 
 class AccountController extends GetxController {
   var username = ''.obs;
-  var email = ''.obs;
-  var phone = ''.obs;
+
   var goDarkMode = true.obs;
   var notificationsEnabled = true.obs;
   var languageSelected = 'English'.obs;
@@ -50,6 +51,33 @@ class AccountController extends GetxController {
     FirebaseAuth.instance.signOut();
   }
 
+  Future<void> makePhoneCall() async {
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: ConstsConfig.phoneNumber,
+    );
+    if (await canLaunchUrl(launchUri)) {
+      await launchUrl(launchUri);
+    } else {
+      throw 'Could not launch $ConstsConfig.phoneNumber';
+    }
+  }
+
+  void goToWebsite() async {
+    Uri url = Uri.parse(ConstsConfig.websiteLink);
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      Get.snackbar(
+        'Cannot open the website',
+        'Something wrong with Internet Connection or the app!',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+  }
+
   void showDeleteAccountDialog() {
     Get.dialog(
       AlertDialog(
@@ -82,7 +110,7 @@ class AccountController extends GetxController {
               Get.snackbar(
                 'Account Deleted',
                 'Your account has been successfully deleted.',
-                backgroundColor: Colors.green,
+                backgroundColor: ConstsConfig.primarycolor,
                 colorText: Colors.white,
               );
             },
@@ -111,7 +139,7 @@ class AccountController extends GetxController {
       Get.snackbar(
         'Account Deleted',
         'Your account has been successfully deleted.',
-        backgroundColor: Colors.green,
+        backgroundColor: ConstsConfig.primarycolor,
         colorText: Colors.white,
       );
     } catch (e) {

@@ -13,7 +13,7 @@ import 'package:xstore/app/modules/Cart/controllers/cart_controller.dart';
 class PaymentController extends GetxController {
   // Rx variables for payment options
 
-  var profileImg = "".obs;
+  var transitionImage = "".obs;
   late File file;
   var isProfileImageChooseSuccess = false.obs;
   var isLoading = false.obs;
@@ -84,7 +84,7 @@ class PaymentController extends GetxController {
 
         // Get the image URL
         String imageUrl = await taskSnapshot.ref.getDownloadURL();
-        profileImg.value = imageUrl;
+        transitionImage.value = imageUrl;
         isLoading.value = false;
       } else {
         Get.snackbar(
@@ -100,14 +100,26 @@ class PaymentController extends GetxController {
     }
   }
 
-// Method to confirm the payment
   void confirmPayment() async {
+    // Validate if a payment method is selected
+    if (selectedPayment.value.isEmpty) {
+      Get.snackbar('Payment Error', 'Please select a payment method.',
+          backgroundColor: Colors.red, colorText: Colors.white);
+      return;
+    }
+
+    // Validate if an image has been uploaded
+    if (transitionImage.value.isEmpty) {
+      Get.snackbar('Image Error', 'Please upload a transaction screenshot.',
+          backgroundColor: Colors.red, colorText: Colors.white);
+      return;
+    }
+
     isLoading.value = true;
 
     // Perform stock check for all items in the cart before placing the order
     bool isStockAvailable = await checkStockForOrder(
-      Get.find<CartController>()
-          .cartItems, // Pass the observable cartItems list here
+      Get.find<CartController>().cartItems,
     );
 
     if (!isStockAvailable) {
@@ -115,7 +127,7 @@ class PaymentController extends GetxController {
           'Stock Error', 'Not enough stock for one or more items in your cart.',
           backgroundColor: Colors.red);
       isLoading.value = false;
-      return; // Exit the function if stock is insufficient
+      return;
     }
 
     // Proceed with order creation if stock is sufficient
@@ -128,7 +140,7 @@ class PaymentController extends GetxController {
       status: "Pending",
     );
 
-    Get.toNamed('/order-success');
+    Get.offNamed('/order-success');
     isLoading.value = false;
   }
 
@@ -187,16 +199,19 @@ class PaymentController extends GetxController {
       }
 
       final docRef = FirebaseFirestore.instance.collection('orders').doc();
+      Timestamp timestamp =
+          Timestamp.now(); // Assuming 'orderDate' is a Timestamp field
+      DateTime dateTime = timestamp.toDate();
 
       // Create the OrderModel instance
       final order = OrderItem(
         userId: user.uid,
         orderId: docRef.id,
-        orderDate: DateTime.now().toIso8601String(),
+        orderDate: dateTime,
         status: status, // Initial status
         totalPrice: totalPrice,
         paymentMethod: selectedPayment.value,
-        transationUrl: profileImg.value,
+        transationUrl: transitionImage.value,
         name: name,
         phoneNumber: phoneNumber,
         address: address,

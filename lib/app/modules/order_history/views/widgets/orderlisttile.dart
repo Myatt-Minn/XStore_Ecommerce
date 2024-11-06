@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xstore/app/data/consts_config.dart';
 import 'package:xstore/app/data/order_model.dart';
 
 class OrderHistoryTile extends StatelessWidget {
@@ -9,8 +10,8 @@ class OrderHistoryTile extends StatelessWidget {
 
   Color _getStatusColor(String status) {
     switch (status) {
-      case 'Completed':
-        return Colors.green;
+      case 'Confirmed':
+        return ConstsConfig.primarycolor;
       case 'Refund':
         return Colors.blue;
       case 'Cancel':
@@ -18,7 +19,7 @@ class OrderHistoryTile extends StatelessWidget {
       case 'Pending':
         return Colors.orange;
       default:
-        return Colors.black;
+        return Get.isDarkMode ? Colors.white : Colors.black;
     }
   }
 

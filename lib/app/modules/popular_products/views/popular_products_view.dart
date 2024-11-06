@@ -1,7 +1,7 @@
-import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xstore/app/data/product_model.dart';
+import 'package:xstore/global_widgets/productCard.dart';
 
 import '../controllers/popular_products_controller.dart';
 
@@ -47,76 +47,14 @@ class PopularProductsView extends GetView<PopularProductsController> {
                 itemCount: controller.filteredProducts.length,
                 itemBuilder: (context, index) {
                   Product product = controller.filteredProducts[index];
-                  return _buildProductCard(product);
+                  return ProductCard(
+                    product: product,
+                  );
                 },
               );
             }),
           ),
         ],
-      ),
-    );
-  }
-
-  // The product card widget is reused here
-  Widget _buildProductCard(Product product) {
-    return GestureDetector(
-      onTap: () {
-        Get.toNamed('/product-details', arguments: product);
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              spreadRadius: 2,
-              blurRadius: 5,
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(15), topRight: Radius.circular(15)),
-              child: FancyShimmerImage(
-                imageUrl: product.images![0],
-                width: double.infinity,
-                height: 120,
-                boxFit: BoxFit.cover,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(product.name!,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                          color: Colors.black)),
-                  Text(product.brand!,
-                      style: const TextStyle(color: Colors.green)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "${product.sizes![0]['price']} MMK",
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                            fontSize: 16),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

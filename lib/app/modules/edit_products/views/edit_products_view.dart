@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xstore/app/data/consts_config.dart';
 import 'package:xstore/app/modules/edit_products/controllers/edit_products_controller.dart';
 
 class EditProductsView extends GetView<EditProductsController> {
@@ -15,7 +16,7 @@ class EditProductsView extends GetView<EditProductsController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Product'),
-        backgroundColor: const Color(0xFF95CCA9),
+        backgroundColor: ConstsConfig.primarycolor,
         centerTitle: true,
       ),
       body: FutureBuilder(
@@ -290,7 +291,7 @@ class EditProductsView extends GetView<EditProductsController> {
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF95CCA9),
+                            backgroundColor: ConstsConfig.secondarycolor,
                             padding: const EdgeInsets.symmetric(
                               vertical: 16.0,
                               horizontal: 32.0,
@@ -299,7 +300,10 @@ class EditProductsView extends GetView<EditProductsController> {
                           child: Obx(
                             () => controller.isLoading.value
                                 ? const CircularProgressIndicator()
-                                : const Text('Update Product'),
+                                : const Text(
+                                    'Update Product',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                           )),
                     ),
                   ],

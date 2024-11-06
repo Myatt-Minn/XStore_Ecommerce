@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xstore/app/data/consts_config.dart';
 import 'package:xstore/app/modules/category_list/controllers/category_list_controller.dart';
 
 class AddCategoryView extends GetView<CategoryListController> {
@@ -9,8 +10,11 @@ class AddCategoryView extends GetView<CategoryListController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Category'),
-        backgroundColor: const Color(0xFF95CCA9),
+        title: const Text(
+          'Add Category',
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: ConstsConfig.primarycolor,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -41,11 +45,14 @@ class AddCategoryView extends GetView<CategoryListController> {
               () => ElevatedButton(
                 onPressed: () => controller.addCategory(),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF95CCA9),
+                  backgroundColor: ConstsConfig.secondarycolor,
                 ),
                 child: controller.isLoading.value
                     ? const CircularProgressIndicator()
-                    : const Text('Add Category'),
+                    : const Text(
+                        'Add Category',
+                        style: TextStyle(color: Colors.white),
+                      ),
               ),
             )
           ],

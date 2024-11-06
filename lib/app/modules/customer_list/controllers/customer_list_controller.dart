@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xstore/app/data/consts_config.dart';
 import 'package:xstore/app/data/user_model.dart';
 
 class CustomerListController extends GetxController {
@@ -74,7 +75,7 @@ class CustomerListController extends GetxController {
 
       Get.snackbar('Success', 'user deleted successfully!',
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green[100],
+          backgroundColor: ConstsConfig.primarycolor,
           colorText: Colors.black);
     } catch (e) {
       // Handle any errors that occur during deletion

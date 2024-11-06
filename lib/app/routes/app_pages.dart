@@ -2,14 +2,22 @@ import 'package:get/get.dart';
 
 import '../modules/Cart/bindings/cart_binding.dart';
 import '../modules/Cart/views/cart_view.dart';
+import '../modules/FullScreenImage/bindings/full_screen_image_binding.dart';
+import '../modules/FullScreenImage/views/full_screen_image_view.dart';
 import '../modules/SendNotification/bindings/send_notification_binding.dart';
 import '../modules/SendNotification/views/send_notification_view.dart';
 import '../modules/account/bindings/account_binding.dart';
 import '../modules/account/views/account_view.dart';
+import '../modules/add_privacy/bindings/add_privacy_binding.dart';
+import '../modules/add_privacy/views/add_privacy_view.dart';
+import '../modules/add_terms/bindings/add_terms_binding.dart';
+import '../modules/add_terms/views/add_terms_view.dart';
 import '../modules/admin_dashboard/bindings/admin_dashboard_binding.dart';
 import '../modules/admin_dashboard/views/admin_dashboard_view.dart';
 import '../modules/admin_panel/bindings/admin_panel_binding.dart';
 import '../modules/admin_panel/views/admin_panel_view.dart';
+import '../modules/all_category_products/bindings/all_category_products_binding.dart';
+import '../modules/all_category_products/views/all_category_products_view.dart';
 import '../modules/all_products/bindings/all_products_binding.dart';
 import '../modules/all_products/views/all_products_view.dart';
 import '../modules/auth_gate/bindings/auth_gate_binding.dart';
@@ -60,15 +68,21 @@ import '../modules/payment_list/views/add_payment.dart';
 import '../modules/payment_list/views/payment_list_view.dart';
 import '../modules/popular_products/bindings/popular_products_binding.dart';
 import '../modules/popular_products/views/popular_products_view.dart';
+import '../modules/privacy_policy/bindings/privacy_policy_binding.dart';
+import '../modules/privacy_policy/views/privacy_policy_view.dart';
 import '../modules/product_details/bindings/product_details_binding.dart';
 import '../modules/product_details/views/product_details_view.dart';
 import '../modules/product_list/bindings/product_list_binding.dart';
 import '../modules/product_list/views/add_product.dart';
 import '../modules/product_list/views/product_list_view.dart';
+import '../modules/send_specific_notification/bindings/send_specific_notification_binding.dart';
+import '../modules/send_specific_notification/views/send_specific_notification_view.dart';
 import '../modules/signup/bindings/signup_binding.dart';
 import '../modules/signup/views/signup_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
+import '../modules/terms_and_condition/bindings/terms_and_condition_binding.dart';
+import '../modules/terms_and_condition/views/terms_and_condition_view.dart';
 
 part 'app_routes.dart';
 
@@ -274,6 +288,41 @@ class AppPages {
       name: _Paths.NOTIFICATION,
       page: () => const NotificationView(),
       binding: NotificationBinding(),
+    ),
+    GetPage(
+      name: _Paths.SEND_SPECIFIC_NOTIFICATION,
+      page: () => const SendSpecificNotificationView(),
+      binding: SendSpecificNotificationBinding(),
+    ),
+    GetPage(
+      name: _Paths.ALL_CATEGORY_PRODUCTS,
+      page: () => const AllCategoryProductsView(),
+      binding: AllCategoryProductsBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADD_PRIVACY,
+      page: () => const AddPrivacyView(),
+      binding: AddPrivacyBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADD_TERMS,
+      page: () => const AddTermsView(),
+      binding: AddTermsBinding(),
+    ),
+    GetPage(
+      name: _Paths.PRIVACY_POLICY,
+      page: () => const PrivacyPolicyView(),
+      binding: PrivacyPolicyBinding(),
+    ),
+    GetPage(
+      name: _Paths.TERMS_AND_CONDITION,
+      page: () => const TermsAndConditionView(),
+      binding: TermsAndConditionBinding(),
+    ),
+    GetPage(
+      name: _Paths.FULL_SCREEN_IMAGE,
+      page: () => const FullScreenImageView(),
+      binding: FullScreenImageBinding(),
     ),
   ];
 }

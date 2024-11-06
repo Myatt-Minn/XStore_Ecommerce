@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xstore/app/data/consts_config.dart';
 
 import '../controllers/login_controller.dart';
 
@@ -17,7 +18,7 @@ class LoginView extends GetView<LoginController> {
               const SizedBox(height: 10),
               // Logo at the top
               Image.asset(
-                'images/logo.png', // Replace with your logo path
+                ConstsConfig.logo, // Replace with your logo path
                 height: 150,
               ),
 
@@ -27,7 +28,6 @@ class LoginView extends GetView<LoginController> {
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
                 ),
               ),
               const SizedBox(height: 10),
@@ -35,7 +35,6 @@ class LoginView extends GetView<LoginController> {
                 'Welcome Back',
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.black54,
                 ),
               ),
               const SizedBox(height: 30),
@@ -133,7 +132,6 @@ class LoginView extends GetView<LoginController> {
                 children: [
                   const Text(
                     "Don't have an account? ",
-                    style: TextStyle(color: Colors.black54),
                   ),
                   GestureDetector(
                     onTap: () {

@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xstore/app/data/consts_config.dart';
 
 class SignupController extends GetxController {
   //TODO: Implement SignupController
@@ -104,7 +105,7 @@ class SignupController extends GetxController {
       // Show success message
       Get.snackbar('Success', 'Account created successfully!',
           snackPosition: SnackPosition.TOP,
-          backgroundColor: const Color(0xFF95CCA9),
+          backgroundColor: ConstsConfig.primarycolor,
           colorText: Colors.white);
     } catch (e) {
       // Handle sign up error

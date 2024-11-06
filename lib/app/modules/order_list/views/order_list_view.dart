@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xstore/app/data/app_widgets.dart';
+import 'package:xstore/app/data/consts_config.dart';
 
 import '../controllers/order_list_controller.dart';
 
@@ -11,8 +12,14 @@ class OrderListView extends GetView<OrderListController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Orders List'),
-        backgroundColor: const Color(0xFF95CCA9),
+        title: const Text(
+          'Orders List',
+          style: TextStyle(color: Colors.black),
+        ),
+        iconTheme: const IconThemeData(
+          color: Colors.black, // Set your desired color here
+        ),
+        backgroundColor: ConstsConfig.primarycolor,
         actions: const [],
       ),
       drawer: const AdminDrawer(),
@@ -89,7 +96,8 @@ class OrderListView extends GetView<OrderListController> {
                                           ),
                                           IconButton(
                                             icon: const Icon(Icons.check,
-                                                color: Colors.green),
+                                                color:
+                                                    ConstsConfig.primarycolor),
                                             onPressed: () {
                                               controller.showConfirmDialog(
                                                   orderitem.orderId!);
@@ -99,8 +107,7 @@ class OrderListView extends GetView<OrderListController> {
                                             icon: const Icon(Icons.delete,
                                                 color: Colors.red),
                                             onPressed: () {
-                                              // Delete action
-                                              controller.deleteorder(
+                                              controller.showDeleteDialog(
                                                   orderitem.orderId!);
                                             },
                                           ),

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:xstore/app/data/banner_model.dart';
+import 'package:xstore/app/data/consts_config.dart';
 
 class BannerListController extends GetxController {
   //TODO: Implement BannerListController
@@ -48,7 +49,7 @@ class BannerListController extends GetxController {
 
         Get.snackbar('Success', 'banner added successfully!',
             snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.green[100],
+            backgroundColor: ConstsConfig.primarycolor,
             colorText: Colors.black);
         isLoading.value = false;
         // Clear input fields
@@ -117,7 +118,7 @@ class BannerListController extends GetxController {
 
       Get.snackbar('Success', 'Banner deleted successfully!',
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green[100],
+          backgroundColor: ConstsConfig.primarycolor,
           colorText: Colors.black);
     } catch (e) {
       // Handle any errors that occur during deletion

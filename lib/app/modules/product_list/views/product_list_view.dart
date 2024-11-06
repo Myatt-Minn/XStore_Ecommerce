@@ -2,6 +2,7 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xstore/app/data/app_widgets.dart';
+import 'package:xstore/app/data/consts_config.dart';
 
 import '../controllers/product_list_controller.dart';
 
@@ -12,8 +13,14 @@ class ProductListView extends GetView<ProductListController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Products List'),
-        backgroundColor: const Color(0xFF95CCA9),
+        title: const Text(
+          'Products List',
+          style: TextStyle(color: Colors.black),
+        ),
+        iconTheme: const IconThemeData(
+          color: Colors.black, // Set your desired color here
+        ),
+        backgroundColor: ConstsConfig.primarycolor,
       ),
       drawer: const AdminDrawer(),
       body: Padding(
@@ -44,10 +51,16 @@ class ProductListView extends GetView<ProductListController> {
                   onPressed: () {
                     Get.toNamed('/add-product');
                   },
-                  icon: const Icon(Icons.add),
-                  label: const Text('Add Product +'),
+                  icon: const Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  ),
+                  label: const Text(
+                    'Add Product',
+                    style: TextStyle(color: Colors.white),
+                  ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF95CCA9),
+                    backgroundColor: ConstsConfig.secondarycolor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:xstore/app/data/cart_model.dart';
+import 'package:xstore/app/data/consts_config.dart';
 import 'package:xstore/app/modules/Cart/controllers/cart_controller.dart';
 
 class CartView extends GetView<CartController> {
@@ -213,11 +214,13 @@ class CartView extends GetView<CartController> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {
-                          Get.toNamed('/check-out');
-                        },
+                        onPressed: controller.cartItems.isNotEmpty
+                            ? () {
+                                Get.toNamed('/check-out');
+                              }
+                            : null,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green[300],
+                          backgroundColor: ConstsConfig.secondarycolor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),

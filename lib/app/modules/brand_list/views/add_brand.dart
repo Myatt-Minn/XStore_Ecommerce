@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xstore/app/data/consts_config.dart';
 import 'package:xstore/app/modules/brand_list/controllers/brand_list_controller.dart';
 
 class AddbrandView extends GetView<BrandListController> {
@@ -9,8 +10,11 @@ class AddbrandView extends GetView<BrandListController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add brand'),
-        backgroundColor: const Color(0xFF95CCA9),
+        title: const Text(
+          'Add brand',
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: ConstsConfig.primarycolor,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -41,11 +45,14 @@ class AddbrandView extends GetView<BrandListController> {
               () => ElevatedButton(
                 onPressed: () => controller.addbrand(),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF95CCA9),
+                  backgroundColor: ConstsConfig.secondarycolor,
                 ),
                 child: controller.isLoading.value
                     ? const CircularProgressIndicator()
-                    : const Text('Add brand'),
+                    : const Text(
+                        'Add brand',
+                        style: TextStyle(color: Colors.white),
+                      ),
               ),
             )
           ],

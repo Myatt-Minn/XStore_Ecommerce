@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:getwidget/components/loader/gf_loader.dart';
 import 'package:getwidget/types/gf_loader_type.dart';
@@ -23,7 +22,8 @@ class SplashView extends GetView<SplashController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
-                    'images/logo.png', // Replace with the path to your logo image
+                    ConstsConfig
+                        .logo, // Replace with the path to your logo image
                     width: 150,
                     height: 150,
                   ),
@@ -71,7 +71,7 @@ class SplashView extends GetView<SplashController> {
               left: 0,
               child: Center(
                 child: Text(
-                  '© 2024 Tech4MM. All rights reserved.', // Updated copyright text, // Replace with your desired footer text
+                  '© 2024 App.com.mm. All rights reserved.', // Updated copyright text, // Replace with your desired footer text
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.normal,

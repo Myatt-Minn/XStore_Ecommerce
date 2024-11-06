@@ -9,9 +9,7 @@ import 'package:googleapis_auth/auth_io.dart' as auth;
 import 'package:http/http.dart' as http;
 
 Future<void> handleBackgroundMessage(RemoteMessage message) async {
-  print("Title: ${message.notification?.title}");
-  print("Body: ${message.notification?.body}");
-  print("Payload: ${message.data}");
+  print(message.data);
 }
 
 class SendNotificationHandler {
@@ -65,7 +63,8 @@ class SendNotificationHandler {
 
   void handleMessage(RemoteMessage? message) {
     if (message == null) return;
-    Get.toNamed('/notification', arguments: message);
+
+    Get.toNamed('/notification');
   }
 
   Future initPushNotification() async {
@@ -82,13 +81,6 @@ class SendNotificationHandler {
         print(message.data);
         // Local Notification Code to Display Alert
         displayNotification(message);
-
-        // Store the notification in Firestore
-        await FirebaseFirestore.instance.collection("notifications").add({
-          "title": message.notification!.title,
-          "body": message.notification!.body,
-          "receivedAt": FieldValue.serverTimestamp(),
-        });
 
         print('GG');
       }
@@ -172,6 +164,13 @@ class SendNotificationHandler {
         print('No tokens found!');
         return;
       }
+      // Store the notification in Firestore
+      var docRef = FirebaseFirestore.instance.collection("notifications").doc();
+      docRef.set({
+        "id": docRef.id,
+        "title": title,
+        "body": body,
+      });
 
       for (String token in tokens) {
         await sendPushNotification(token: token, title: title, body: body);

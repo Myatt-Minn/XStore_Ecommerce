@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:xstore/app/data/cart_model.dart';
 
 class OrderItem {
@@ -5,7 +6,7 @@ class OrderItem {
   final String? userId;
   final String? name;
   final String? phoneNumber;
-  final String? orderDate;
+  final DateTime? orderDate;
   final String? status;
   final String? transationUrl;
   final int? totalPrice;
@@ -28,12 +29,14 @@ class OrderItem {
 
   // Convert Firestore data to Order model
   factory OrderItem.fromMap(Map<String, dynamic> map) {
+    Timestamp timestamp = map['orderDate'];
+    DateTime orderDate = timestamp.toDate();
     return OrderItem(
       orderId: map['orderId'] ?? '',
       userId: map['userId'] ?? '',
       name: map['name'] ?? '',
       phoneNumber: map['phoneNumber'] ?? '',
-      orderDate: map['orderDate'] ?? '',
+      orderDate: orderDate,
       transationUrl: map['transationUrl'] ?? '',
       status: map['status'] ?? 'Pending',
       totalPrice: (map['totalPrice'] ?? 0),

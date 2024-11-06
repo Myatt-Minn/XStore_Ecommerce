@@ -2,6 +2,7 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xstore/app/data/app_widgets.dart';
+import 'package:xstore/app/data/consts_config.dart';
 
 import '../controllers/banner_list_controller.dart';
 
@@ -11,9 +12,15 @@ class BannerListView extends GetView<BannerListController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Banners List'),
-        backgroundColor: const Color(0xFF95CCA9), // Matching the appbar color
+        title: const Text(
+          'Banners List',
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: ConstsConfig.primarycolor, // Matching the appbar color
         actions: const [],
+        iconTheme: const IconThemeData(
+          color: Colors.black, // Set your desired color here
+        ),
       ),
       drawer: const AdminDrawer(),
       body: Padding(
@@ -29,10 +36,16 @@ class BannerListView extends GetView<BannerListController> {
                     // Add Banner action
                     Get.toNamed('/add-banner');
                   },
-                  icon: const Icon(Icons.add),
-                  label: const Text('Add Banner +'),
+                  icon: const Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  ),
+                  label: const Text(
+                    'Add Banner',
+                    style: TextStyle(color: Colors.white),
+                  ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF95CCA9),
+                    backgroundColor: ConstsConfig.secondarycolor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),

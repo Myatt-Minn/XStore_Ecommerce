@@ -2,6 +2,7 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xstore/app/data/app_widgets.dart';
+import 'package:xstore/app/data/consts_config.dart';
 import 'package:xstore/app/modules/Cart/controllers/cart_controller.dart';
 import 'package:xstore/app/modules/navigation_screen/controllers/navigation_screen_controller.dart';
 import 'package:xstore/app/modules/product_details/controllers/product_details_controller.dart';
@@ -27,6 +28,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                       Get.find<NavigationScreenController>()
                           .currentIndex
                           .value = 2;
+
                       Get.back();
                     },
                   ),
@@ -100,7 +102,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                                           color: controller.selectedImageIndex
                                                       .value ==
                                                   index
-                                              ? const Color(0xFF95CCA9)
+                                              ? ConstsConfig.primarycolor
                                               : Colors.transparent,
                                           width: 2),
                                       borderRadius: BorderRadius.circular(8),
@@ -157,7 +159,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
 
                                 return Container(
                                   color: isSelected
-                                      ? Colors.greenAccent
+                                      ? ConstsConfig.primarycolor
                                       : Colors.white,
                                   child: ListTile(
                                     title: Text('Size: ${size['size']}',
@@ -172,7 +174,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                                             color: Colors.black)),
                                     leading: isSelected
                                         ? const Icon(Icons.check_circle,
-                                            color: Colors.green)
+                                            color: ConstsConfig.primarycolor)
                                         : const Icon(
                                             Icons.radio_button_unchecked,
                                             color: Colors.black),
@@ -194,7 +196,8 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                         Obx(() => Container(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 12, vertical: 4),
-                            decoration: BoxDecoration(color: Colors.green[300]),
+                            decoration:
+                                BoxDecoration(color: ConstsConfig.primarycolor),
                             child: Text(
                               controller.quantity.toString(),
                             ))),
@@ -208,7 +211,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                                                 controller.selectedSize
                                                     .value)['quantity'] >
                                         controller.quantity.value
-                                ? Colors.black
+                                ? Colors.white
                                 : Colors
                                     .grey, // Disable the button if no more stock
                           ),
@@ -218,8 +221,8 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                         Expanded(
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors
-                                  .green[300], // Set the background color here
+                              backgroundColor: ConstsConfig
+                                  .secondarycolor, // Set the background color here
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(
                                     12), // Optional: To match the design with rounded corners

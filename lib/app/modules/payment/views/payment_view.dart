@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xstore/app/data/consts_config.dart';
 
 import '../controllers/payment_controller.dart';
 
 class PaymentView extends GetView<PaymentController> {
   const PaymentView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +17,7 @@ class PaymentView extends GetView<PaymentController> {
           onPressed: () => Get.back(),
         ),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,7 +58,7 @@ class PaymentView extends GetView<PaymentController> {
                     border: Border.all(color: Colors.grey),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: controller.profileImg.value == ""
+                  child: controller.transitionImage.value == ""
                       ? Center(
                           child: controller.isLoading.value
                               ? const CircularProgressIndicator()
@@ -66,24 +68,24 @@ class PaymentView extends GetView<PaymentController> {
                                     Icon(Icons.upload_file,
                                         size: 40, color: Colors.grey),
                                     SizedBox(height: 8),
-                                    Text('Click here image upload')
+                                    Text('Click here to upload image')
                                   ],
                                 ),
                         )
                       : Image.network(
-                          controller.profileImg.value,
+                          controller.transitionImage.value,
                           fit: BoxFit.cover,
                         ),
                 ),
               ),
             ),
-            const Spacer(),
+            const SizedBox(height: 16), // Added space before the confirm button
             Obx(() {
               return ElevatedButton(
                 onPressed: () => controller.confirmPayment(),
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 50),
-                  backgroundColor: Colors.green,
+                  backgroundColor: ConstsConfig.secondarycolor,
                 ),
                 child: controller.isOrder.value
                     ? const CircularProgressIndicator()
@@ -128,7 +130,7 @@ class PaymentOption extends StatelessWidget {
         title: Text(name),
         subtitle: Text(phone),
         trailing: isSelected
-            ? const Icon(Icons.check_circle, color: Colors.green)
+            ? const Icon(Icons.check_circle, color: ConstsConfig.primarycolor)
             : const Icon(Icons.radio_button_unchecked),
       ),
     );

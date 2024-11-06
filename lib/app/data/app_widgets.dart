@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xstore/app/data/consts_config.dart';
 
 class AppWidgets {
   static TextStyle boldTextFieldStyle() => const TextStyle(
@@ -76,7 +77,7 @@ class AdminDrawer extends StatelessWidget {
         children: [
           Container(
             height: 80,
-            color: Colors.green[300],
+            color: ConstsConfig.primarycolor,
             padding: const EdgeInsets.symmetric(
               horizontal: 16,
             ),
@@ -144,6 +145,20 @@ class AdminDrawer extends StatelessWidget {
             'Payment List',
             Colors.grey,
             () => Get.toNamed('/payment-list'),
+          ),
+          buildMenuItem(
+            context,
+            Icons.category,
+            'Privacy Policy',
+            Colors.grey,
+            () => Get.toNamed('/add-privacy'),
+          ),
+          buildMenuItem(
+            context,
+            Icons.payment,
+            'Send Notification',
+            Colors.grey,
+            () => Get.toNamed('/send-notification'),
           ),
           const SizedBox(
             height: 16,

@@ -65,7 +65,7 @@ class CheckOutController extends GetxController {
       status: "Pending",
     );
 
-    Get.toNamed('/order-success');
+    Get.offNamed('/order-success');
     isLoading.value = false;
   }
 
@@ -126,10 +126,14 @@ class CheckOutController extends GetxController {
       final docRef = FirebaseFirestore.instance.collection('orders').doc();
 
       // Create the OrderModel instance
+      Timestamp timestamp =
+          Timestamp.now(); // Assuming 'orderDate' is a Timestamp field
+      DateTime dateTime = timestamp.toDate();
+
       final order = OrderItem(
         userId: user.uid,
         orderId: docRef.id,
-        orderDate: DateTime.now().toIso8601String(),
+        orderDate: dateTime,
         status: status, // Initial status
         totalPrice: totalPrice,
         paymentMethod: "COD", // Assuming COD for now

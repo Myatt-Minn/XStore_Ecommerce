@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xstore/app/data/consts_config.dart';
 
 import '../controllers/edit_profile_controller.dart';
 
@@ -40,7 +41,7 @@ class EditProfileView extends GetView<EditProfileController> {
                       backgroundImage:
                           controller.isProfileImageChooseSuccess.value
                               ? FileImage(controller.file)
-                              : const AssetImage('images/addperson.png')
+                              : const AssetImage('images/person.png')
                                   as ImageProvider,
                     ),
                     Positioned(
@@ -51,7 +52,7 @@ class EditProfileView extends GetView<EditProfileController> {
                           controller.chooseImage();
                         },
                         child: CircleAvatar(
-                          backgroundColor: Colors.green[300],
+                          backgroundColor: ConstsConfig.primarycolor,
                           radius: 20,
                           child: const Icon(
                             Icons.camera_alt,
@@ -86,12 +87,15 @@ class EditProfileView extends GetView<EditProfileController> {
             ElevatedButton(
               onPressed: controller.updateUserProfile,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green[300],
+                backgroundColor: ConstsConfig.secondarycolor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              child: const Text('Update'),
+              child: const Text(
+                'Update',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ],
         ),
@@ -115,7 +119,7 @@ class EditProfileView extends GetView<EditProfileController> {
             controller: textcontroller,
             decoration: InputDecoration(
               filled: true,
-              fillColor: Colors.grey[200],
+
               errorText: controller.showError.value &&
                       controller.isEmpty(textcontroller)
                   ? validationMessage

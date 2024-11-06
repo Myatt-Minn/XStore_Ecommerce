@@ -35,6 +35,13 @@ abstract class Routes {
   static const POPULAR_PRODUCTS = _Paths.POPULAR_PRODUCTS;
   static const SEND_NOTIFICATION = _Paths.SEND_NOTIFICATION;
   static const NOTIFICATION = _Paths.NOTIFICATION;
+  static const SEND_SPECIFIC_NOTIFICATION = _Paths.SEND_SPECIFIC_NOTIFICATION;
+  static const ALL_CATEGORY_PRODUCTS = _Paths.ALL_CATEGORY_PRODUCTS;
+  static const ADD_PRIVACY = _Paths.ADD_PRIVACY;
+  static const ADD_TERMS = _Paths.ADD_TERMS;
+  static const PRIVACY_POLICY = _Paths.PRIVACY_POLICY;
+  static const TERMS_AND_CONDITION = _Paths.TERMS_AND_CONDITION;
+  static const FULL_SCREEN_IMAGE = _Paths.FULL_SCREEN_IMAGE;
 }
 
 abstract class _Paths {
@@ -78,4 +85,11 @@ abstract class _Paths {
   static const POPULAR_PRODUCTS = '/popular-products';
   static const SEND_NOTIFICATION = '/send-notification';
   static const NOTIFICATION = '/notification';
+  static const SEND_SPECIFIC_NOTIFICATION = '/send-specific-notification';
+  static const ALL_CATEGORY_PRODUCTS = '/all-category-products';
+  static const ADD_PRIVACY = '/add-privacy';
+  static const ADD_TERMS = '/add-terms';
+  static const PRIVACY_POLICY = '/privacy-policy';
+  static const TERMS_AND_CONDITION = '/terms-and-condition';
+  static const FULL_SCREEN_IMAGE = '/full-screen-image';
 }

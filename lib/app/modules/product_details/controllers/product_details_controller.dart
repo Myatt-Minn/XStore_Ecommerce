@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xstore/app/data/cart_model.dart';
+import 'package:xstore/app/data/consts_config.dart';
 import 'package:xstore/app/data/product_model.dart';
 import 'package:xstore/app/modules/Cart/controllers/cart_controller.dart';
 
@@ -107,7 +108,7 @@ class ProductDetailsController extends GetxController {
           'Success',
           '${product.value.name} added to cart successfully!',
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: const Color(0xFF95CCA9),
+          backgroundColor: ConstsConfig.primarycolor,
           colorText: Colors.black,
         );
       }

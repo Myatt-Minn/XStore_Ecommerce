@@ -1,20 +1,23 @@
-import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xstore/app/data/consts_config.dart';
 
 import '../controllers/account_controller.dart';
 
 class AccountView extends GetView<AccountController> {
   const AccountView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const Icon(Icons.person),
-        title: const Text('Account',
-            style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text(
+          'Account',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
         elevation: 0,
+        backgroundColor: Colors.transparent,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -22,70 +25,64 @@ class AccountView extends GetView<AccountController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Profile Picture and Username Section
               Center(
                 child: Column(
                   children: [
                     Obx(() {
-                      return Container(
-                        width:
-                            120, // Set the width of the circle (equivalent to radius 60)
-                        height: 120, // Set the height of the circle
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                        ),
+                      return CircleAvatar(
+                        radius: 50,
+                        backgroundColor: Colors.grey.shade300,
+                        backgroundImage: controller.profileImg.value.isNotEmpty
+                            ? NetworkImage(controller.profileImg.value)
+                            : null,
                         child: controller.profileImg.value.isEmpty
-                            ? const Icon(
-                                Icons
-                                    .person, // Show an icon as a placeholder when there's no image
-                                size: 60,
+                            ? Image.asset(
+                                'images/person.png',
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
                               )
-                            : FancyShimmerImage(
-                                imageUrl: controller.profileImg.value,
-                                boxFit: BoxFit.cover,
-                                width: 120,
-                                height: 120,
-                                errorWidget: const Icon(
-                                  Icons
-                                      .error, // Placeholder in case of an error
-                                  size: 60,
-                                ),
-                              ),
+                            : null,
                       );
                     }),
                     const SizedBox(height: 10),
-                    // User Name
+                    // Username
                     Obx(
                       () => Text(
-                        controller.username
-                            .value, // Replace with dynamic data if needed
+                        controller.username.value,
                         style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
-              const Divider(),
-              const Text('Account Setting', style: TextStyle(fontSize: 16)),
+              const Divider(height: 30),
+
+              // Account Setting Section
+              const Text(
+                'Account Setting',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              ),
               const SizedBox(height: 8),
               SettingOption(
                 icon: Icons.person_outline,
                 label: 'Profile',
-                onTap: () {
-                  Get.toNamed('/edit-profile');
-                },
+                onTap: () => Get.toNamed('/edit-profile'),
               ),
               SettingOption(
                 icon: Icons.history,
                 label: 'Order History',
-                onTap: () {
-                  Get.toNamed('/order-history');
-                },
+                onTap: () => Get.toNamed('/order-history'),
               ),
               SettingOption(
                 icon: Icons.delete_outline,
                 label: 'Delete Account',
                 onTap: () {
+                  // Confirm Deletion Dialog
                   Get.dialog(
                     AlertDialog(
                       shape: RoundedRectangleBorder(
@@ -101,10 +98,7 @@ class AccountView extends GetView<AccountController> {
                       ),
                       actions: [
                         TextButton(
-                          onPressed: () {
-                            // Close the dialog without doing anything
-                            Get.back();
-                          },
+                          onPressed: Get.back,
                           child: const Text(
                             'Cancel',
                             style: TextStyle(color: Colors.red),
@@ -113,12 +107,11 @@ class AccountView extends GetView<AccountController> {
                         ElevatedButton(
                           onPressed: () {
                             controller.deleteUser();
-
                             Get.back();
                             controller.signOut();
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.red, // Button color
+                            backgroundColor: Colors.red,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16.0),
                             ),
@@ -127,13 +120,17 @@ class AccountView extends GetView<AccountController> {
                         ),
                       ],
                     ),
-                    barrierDismissible:
-                        false, // Prevent dismissing by tapping outside
+                    barrierDismissible: false,
                   );
                 },
               ),
-              const SizedBox(height: 20),
-              const Text('App Setting', style: TextStyle(fontSize: 16)),
+              const Divider(height: 30),
+
+              // App Setting Section
+              const Text(
+                'App Setting',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              ),
               const SizedBox(height: 8),
               Obx(() => SwitchListTile(
                     title: const Text('Dark Mode'),
@@ -147,21 +144,49 @@ class AccountView extends GetView<AccountController> {
                     onChanged: (val) => controller.toggleNotifications(),
                     secondary: const Icon(Icons.notifications),
                   )),
-              // ListTile(
-              //   title: const Text('Language'),
-              //   subtitle: Obx(() => Text(controller.languageSelected.value)),
-              //   trailing: const Icon(Icons.arrow_forward_ios),
-              //   onTap: () {
-              //     // Show a dialog or dropdown to change the language
-              //     _showLanguageSelectionDialog(context);
-              //   },
-              // ),
+
+              const Divider(height: 30),
+
+              // Other Options Section
+              SettingOption(
+                icon: Icons.description_outlined,
+                label: 'Terms and Conditions',
+                onTap: () {
+                  Get.toNamed('/terms-and-condition');
+                },
+              ),
+              SettingOption(
+                icon: Icons.privacy_tip_outlined,
+                label: 'Privacy Policy',
+                onTap: () {
+                  Get.toNamed('/privacy-policy');
+                },
+              ),
+              SettingOption(
+                  icon: Icons.call,
+                  label: 'Call Center',
+                  onTap: controller.makePhoneCall),
+
+              // Footer Section
               const SizedBox(height: 20),
               ListTile(
-                title: const Text('Sign Out',
-                    style: TextStyle(color: Colors.green)),
-                leading: const Icon(Icons.logout, color: Colors.green),
+                title: const Text(
+                  'Sign Out',
+                  style: TextStyle(color: ConstsConfig.primarycolor),
+                ),
+                leading:
+                    const Icon(Icons.logout, color: ConstsConfig.primarycolor),
                 onTap: () => controller.signOut(),
+              ),
+              const SizedBox(height: 20),
+              Center(
+                child: GestureDetector(
+                  onTap: controller.goToWebsite,
+                  child: Text(
+                    '© 2024 App.com.mm. All rights reserved.',
+                    style: TextStyle(color: Colors.grey[600], fontSize: 12),
+                  ),
+                ),
               ),
             ],
           ),
@@ -169,30 +194,6 @@ class AccountView extends GetView<AccountController> {
       ),
     );
   }
-
-  // void _showLanguageSelectionDialog(BuildContext context) {
-  //   Get.defaultDialog(
-  //     title: 'Select Language',
-  //     content: Column(
-  //       children: [
-  //         ListTile(
-  //           title: const Text('English'),
-  //           onTap: () {
-  //             controller.changeLanguage('English');
-  //             Get.back();
-  //           },
-  //         ),
-  //         ListTile(
-  //           title: const Text('Spanish'),
-  //           onTap: () {
-  //             controller.changeLanguage('Spanish');
-  //             Get.back();
-  //           },
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 }
 
 class SettingOption extends StatelessWidget {
@@ -212,7 +213,7 @@ class SettingOption extends StatelessWidget {
     return ListTile(
       leading: Icon(icon),
       title: Text(label),
-      trailing: const Icon(Icons.arrow_forward_ios),
+      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
       onTap: onTap,
     );
   }

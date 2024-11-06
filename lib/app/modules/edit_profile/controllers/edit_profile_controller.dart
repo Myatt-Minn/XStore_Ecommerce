@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xstore/app/data/consts_config.dart';
 import 'package:xstore/app/modules/account/controllers/account_controller.dart';
 
 class EditProfileController extends GetxController {
@@ -90,7 +91,7 @@ class EditProfileController extends GetxController {
       Get.find<AccountController>().fetchProfilePic();
       Get.snackbar('Success', 'Profile updated successfully!',
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green[100],
+          backgroundColor: ConstsConfig.primarycolor,
           colorText: Colors.black);
 
       isLoading.value = false;

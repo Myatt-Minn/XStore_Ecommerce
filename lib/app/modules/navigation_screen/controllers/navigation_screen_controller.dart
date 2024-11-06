@@ -4,6 +4,7 @@ import 'package:xstore/app/modules/Cart/controllers/cart_controller.dart';
 import 'package:xstore/app/modules/account/controllers/account_controller.dart';
 import 'package:xstore/app/modules/category/controllers/category_controller.dart';
 import 'package:xstore/app/modules/home/controllers/home_controller.dart';
+import 'package:xstore/app/modules/notification/controllers/notification_controller.dart';
 
 class NavigationScreenController extends GetxController {
   //TODO: Implement NavigationScreenController
@@ -39,12 +40,10 @@ class NavigationScreenController extends GetxController {
     switch (index) {
       case 0:
         Get.delete<HomeController>();
+        Get.delete<NotificationController>();
         break;
       case 1:
         Get.delete<CategoryController>();
-        break;
-      case 2:
-        Get.delete<CartController>();
         break;
     }
   }

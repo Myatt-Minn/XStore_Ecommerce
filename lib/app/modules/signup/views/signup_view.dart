@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xstore/app/data/consts_config.dart';
 
 import '../controllers/signup_controller.dart';
 
@@ -21,7 +22,7 @@ class SignupView extends GetView<SignupController> {
               }),
               const SizedBox(height: 25),
               // Logo
-              Image.asset('images/logo.png', width: 100, height: 100),
+              Image.asset(ConstsConfig.logo, width: 100, height: 100),
 
               const SizedBox(height: 5),
 
@@ -153,7 +154,8 @@ class SignupView extends GetView<SignupController> {
                           controller.signUp();
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black, // Black button
+                          backgroundColor:
+                              ConstsConfig.secondarycolor, // Black button
                           padding: const EdgeInsets.symmetric(vertical: 15),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),

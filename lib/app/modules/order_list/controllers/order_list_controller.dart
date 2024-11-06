@@ -22,11 +22,13 @@ class OrderListController extends GetxController {
     try {
       isLoading.value = true;
 
-      // Reference to your Firestore collection
-      QuerySnapshot snapshot =
-          await FirebaseFirestore.instance.collection('orders').get();
+      // Reference to your Firestore collection and ordering by 'orderDate' in descending order
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('orders')
+          .orderBy('orderDate', descending: true)
+          .get();
 
-      // Map Firestore data to the Product model with null checks and detailed logging
+      // Map Firestore data to the OrderItem model with null checks and detailed logging
       orderList.value = snapshot.docs.map((doc) {
         // Check if the document data is null
         final data = doc.data() as Map<String, dynamic>?;
@@ -35,6 +37,7 @@ class OrderListController extends GetxController {
         }
         return OrderItem.fromMap(data);
       }).toList();
+
       filteredList.assignAll(orderList);
       isLoading.value = false;
     } catch (e, stacktrace) {
@@ -42,7 +45,7 @@ class OrderListController extends GetxController {
       print('Stacktrace: $stacktrace');
 
       // Display error in the UI
-      Get.snackbar('Error', 'Failed to fetch products');
+      Get.snackbar('Error', 'Failed to fetch orders');
       isLoading.value = false;
     }
   }
@@ -84,6 +87,29 @@ class OrderListController extends GetxController {
     );
   }
 
+  void showDeleteDialog(String orderId) {
+    Get.dialog(
+      AlertDialog(
+        title: const Text('Delete Order?'),
+        content: const Text('Are you sure you want to delete this order?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Get.back(); // Close the dialog without any action
+            },
+            child: const Text('No'),
+          ),
+          TextButton(
+            onPressed: () async {
+              await deleteorder(orderId);
+            },
+            child: const Text('Yes'),
+          ),
+        ],
+      ),
+    );
+  }
+
   Future<void> deleteorder(String orderId) async {
     try {
       // Delete the order document from the "orders" collection
@@ -92,11 +118,7 @@ class OrderListController extends GetxController {
           .doc(orderId)
           .delete();
       fetchOrders();
-
-      Get.snackbar('Success', 'order deleted successfully!',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green[100],
-          colorText: Colors.black);
+      Get.back();
     } catch (e) {
       // Handle any errors that occur during deletion
       Get.snackbar('Error', 'Failed to delete order: $e',

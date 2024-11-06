@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xstore/app/data/consts_config.dart';
 import 'package:xstore/app/modules/Cart/controllers/cart_controller.dart';
+import 'package:xstore/app/modules/payment/controllers/payment_controller.dart';
 
 import '../controllers/order_success_controller.dart';
 
@@ -15,10 +17,6 @@ class OrderSuccessView extends GetView<OrderSuccessController> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Get.back(),
-        ),
       ),
       body: Center(
         child: Padding(
@@ -31,11 +29,12 @@ class OrderSuccessView extends GetView<OrderSuccessController> {
                 padding: const EdgeInsets.all(20.0),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(color: Colors.green.shade200, width: 3.0),
+                  border:
+                      Border.all(color: ConstsConfig.primarycolor, width: 3.0),
                 ),
                 child: const Icon(
                   Icons.check_circle_outline,
-                  color: Colors.green,
+                  color: ConstsConfig.primarycolor,
                   size: 80,
                 ),
               ),
@@ -53,15 +52,16 @@ class OrderSuccessView extends GetView<OrderSuccessController> {
                 style: ElevatedButton.styleFrom(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 60, vertical: 15),
-                  backgroundColor: Colors.green.shade300,
+                  backgroundColor: ConstsConfig.secondarycolor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
                 onPressed: () {
                   // Navigate to shopping or home
-                  Get.find<CartController>().cartItems.clear();
+                  Get.find<CartController>().clearCart();
                   Get.find<CartController>().totalAmount.value = 0;
+                  Get.delete<PaymentController>();
                   Get.offAndToNamed('/navigation-screen');
                 },
                 child: const Text(

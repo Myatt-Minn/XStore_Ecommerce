@@ -2,6 +2,7 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xstore/app/data/app_widgets.dart';
+import 'package:xstore/app/data/consts_config.dart';
 
 import '../controllers/customer_list_controller.dart';
 
@@ -12,8 +13,14 @@ class CustomerListView extends GetView<CustomerListController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Users List'),
-        backgroundColor: const Color(0xFF95CCA9),
+        title: const Text(
+          'Users List',
+          style: TextStyle(color: Colors.black),
+        ),
+        iconTheme: const IconThemeData(
+          color: Colors.black, // Set your desired color here
+        ),
+        backgroundColor: ConstsConfig.primarycolor,
       ),
       drawer: const AdminDrawer(),
       body: Padding(

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:xstore/app/data/consts_config.dart';
 import 'package:xstore/app/data/order_model.dart';
 
 class OrderHistoryController extends GetxController {
@@ -20,13 +21,15 @@ class OrderHistoryController extends GetxController {
   Future<void> fetchOrderHistory() async {
     try {
       isLoading(true); // Set loading to true
-// Get the current user's ID
+
+      // Get the current user's ID
       String userId = FirebaseAuth.instance.currentUser!.uid;
 
-      // Query Firestore to get orders for the current user
+      // Query Firestore to get orders for the current user, ordered by 'orderDate' in descending order
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('orders')
           .where('userId', isEqualTo: userId) // Filter by userId
+          .orderBy('orderDate', descending: true) // Order by 'orderDate'
           .get();
 
       // Map Firestore documents to OrderItem model using the fromMap method
@@ -37,7 +40,7 @@ class OrderHistoryController extends GetxController {
 
       orderList.assignAll(orders); // Update reactive order list
     } catch (e) {
-      Get.snackbar('Error', 'Failed to load order history');
+      print(e.toString());
     } finally {
       isLoading(false); // Set loading to false
     }
@@ -65,7 +68,7 @@ class OrderHistoryController extends GetxController {
 
       Get.snackbar('Success', 'Order deleted successfully!',
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green[100],
+          backgroundColor: ConstsConfig.primarycolor,
           colorText: Colors.black);
     } catch (e) {
       // Handle any errors that occur during deletion

@@ -2,6 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xstore/app/data/app_widgets.dart';
+import 'package:xstore/app/data/consts_config.dart';
+import 'package:xstore/app/modules/admin_dashboard/views/widgets/orderRow.dart';
+import 'package:xstore/app/modules/admin_dashboard/views/widgets/statCard.dart';
 
 import '../controllers/admin_dashboard_controller.dart';
 
@@ -12,7 +15,7 @@ class AdminDashboardView extends GetView<AdminDashboardController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF95CCA9),
+        backgroundColor: ConstsConfig.primarycolor,
         title: const Text('Dashboard'),
         actions: [
           IconButton(
@@ -44,42 +47,65 @@ class AdminDashboardView extends GetView<AdminDashboardController> {
               ),
               const SizedBox(height: 20),
 
-              // Reactive stats cards
+              // Import the StatCard widget
+
+// Reactive stats cards
               Obx(() => Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      _buildStatCard(controller.userCount.value.toString(),
-                          'Users', Colors.green[100]!),
-                      _buildStatCard(controller.productCount.value.toString(),
-                          'Products', Colors.blue[100]!),
+                      StatCard(
+                        count: controller.userCount.value.toString(),
+                        label: 'Users',
+                        backgroundColor: ConstsConfig.primarycolor,
+                      ),
+                      StatCard(
+                        count: controller.productCount.value.toString(),
+                        label: 'Products',
+                        backgroundColor: Colors.blue[100]!,
+                      ),
                     ],
                   )),
               const SizedBox(height: 10),
               Obx(() => Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      _buildStatCard(controller.orderCount.value.toString(),
-                          'Orders', Colors.orange[100]!),
-                      _buildStatCard(controller.categoryCount.value.toString(),
-                          'Categories', Colors.pink[100]!),
+                      StatCard(
+                        count: controller.orderCount.value.toString(),
+                        label: 'Orders',
+                        backgroundColor: Colors.orange[100]!,
+                      ),
+                      StatCard(
+                        count: controller.categoryCount.value.toString(),
+                        label: 'Categories',
+                        backgroundColor: Colors.pink[100]!,
+                      ),
                     ],
                   )),
               const SizedBox(height: 10),
               Obx(() => Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      _buildStatCard(controller.paymentCount.value.toString(),
-                          'Payments', Colors.yellow[100]!),
-                      _buildStatCard(controller.bannerCount.value.toString(),
-                          'Banners', Colors.grey[100]!),
+                      StatCard(
+                        count: controller.paymentCount.value.toString(),
+                        label: 'Payments',
+                        backgroundColor: Colors.yellow[100]!,
+                      ),
+                      StatCard(
+                        count: controller.bannerCount.value.toString(),
+                        label: 'Banners',
+                        backgroundColor: Colors.grey[100]!,
+                      ),
                     ],
                   )),
+
               const SizedBox(height: 10),
               Obx(() => Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      _buildStatCard(controller.brandCount.value.toString(),
-                          'Brands', Colors.purple[100]!),
+                      StatCard(
+                          count: controller.brandCount.value.toString(),
+                          label: 'Brands',
+                          backgroundColor: Colors.purple[100]!),
                     ],
                   )),
               const SizedBox(height: 20),
@@ -117,52 +143,16 @@ class AdminDashboardView extends GetView<AdminDashboardController> {
                     itemCount: controller.recentOrders.length,
                     itemBuilder: (context, index) {
                       final order = controller.recentOrders[index];
-                      return _buildOrderRow(index, order.name!, order.status!);
+                      return OrderRow(
+                        index: index,
+                        customerName: order.name!,
+                        paymentStatus: order.status!,
+                      );
                     },
                   )),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildStatCard(String count, String label, Color backgroundColor) {
-    return Container(
-      width: 150,
-      height: 90,
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(count,
-                style:
-                    const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 5),
-            Text(label,
-                style: const TextStyle(fontSize: 16, color: Colors.black87)),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildOrderRow(int index, String customerName, String paymentStatus) {
-    return Container(
-      color: index % 2 == 0 ? Colors.grey[100] : Colors.grey[200],
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text((index + 1).toString()), // Adding 1 to make index start from 1
-          Text(customerName),
-          Text(paymentStatus),
-        ],
       ),
     );
   }

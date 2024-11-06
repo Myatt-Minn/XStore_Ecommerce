@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:xstore/app/data/app_widgets.dart';
 import 'package:xstore/app/data/content_model.dart';
@@ -62,7 +61,7 @@ class OnboardingView extends GetView<OnboardingController> {
             onTap: controller.handleNext,
             child: Obx(() => Container(
                   decoration: BoxDecoration(
-                    color: Colors.red,
+                    color: Colors.teal,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   height: 60,

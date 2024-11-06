@@ -41,6 +41,27 @@ class SendNotificationView extends GetView<SendNotificationController> {
               },
               child: const Text('Send Notification'),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Send Notification to Specific User?",
+                  style: TextStyle(color: Colors.black54),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed('/send-specific-notification');
+                  },
+                  child: const Text(
+                    'Go',
+                    style: TextStyle(
+                      color: Colors.teal,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),

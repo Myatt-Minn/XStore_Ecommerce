@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xstore/app/data/consts_config.dart';
 import 'package:xstore/app/modules/product_list/controllers/product_list_controller.dart';
 
 class AddProductView extends GetView<ProductListController> {
@@ -11,8 +12,11 @@ class AddProductView extends GetView<ProductListController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Product'),
-        backgroundColor: const Color(0xFF95CCA9),
+        title: const Text(
+          'Add Product',
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: ConstsConfig.primarycolor,
         centerTitle: true,
       ),
       body: Padding(
@@ -268,7 +272,7 @@ class AddProductView extends GetView<ProductListController> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF95CCA9),
+                        backgroundColor: ConstsConfig.secondarycolor,
                         padding: const EdgeInsets.symmetric(
                           vertical: 16.0,
                           horizontal: 32.0,
@@ -279,7 +283,7 @@ class AddProductView extends GetView<ProductListController> {
                             ? const CircularProgressIndicator()
                             : const Text(
                                 'Add Product',
-                                style: TextStyle(color: Colors.black),
+                                style: TextStyle(color: Colors.white),
                               ),
                       )),
                 ),

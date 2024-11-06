@@ -1,6 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xstore/app/data/consts_config.dart';
 import 'package:xstore/app/modules/Cart/views/cart_view.dart';
 import 'package:xstore/app/modules/account/views/account_view.dart';
 import 'package:xstore/app/modules/category/views/category_view.dart';
@@ -25,7 +26,7 @@ class NavigationScreenView extends GetView<NavigationScreenController> {
           _views[controller.currentIndex.value]), // Display the current view
       bottomNavigationBar: Obx(
         () => CurvedNavigationBar(
-          buttonBackgroundColor: const Color(0xFF95CCA9),
+          buttonBackgroundColor: ConstsConfig.primarycolor,
           color: const Color(0xFF2E394D),
           backgroundColor: Colors.transparent,
           index: controller.currentIndex.value,

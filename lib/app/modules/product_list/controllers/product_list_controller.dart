@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:xstore/app/data/consts_config.dart';
 import 'package:xstore/app/data/product_model.dart';
 
 class ProductListController extends GetxController {
@@ -167,7 +168,7 @@ class ProductListController extends GetxController {
 
       await docRef.set(product);
       Get.snackbar('Success', 'Product added successfully',
-          backgroundColor: Colors.green[300]);
+          backgroundColor: ConstsConfig.primarycolor);
       fetchProducts();
       isLoading.value = false;
     } catch (e) {
@@ -188,7 +189,7 @@ class ProductListController extends GetxController {
 
       Get.snackbar('Success', 'Product deleted successfully!',
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green[100],
+          backgroundColor: ConstsConfig.primarycolor,
           colorText: Colors.black);
     } catch (e) {
       // Handle any errors that occur during deletion

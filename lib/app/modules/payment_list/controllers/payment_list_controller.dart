@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:xstore/app/data/consts_config.dart';
 import 'package:xstore/app/data/payment_model.dart';
 
 class PaymentListController extends GetxController {
@@ -65,7 +66,7 @@ class PaymentListController extends GetxController {
 
         Get.snackbar('Success', 'payment added successfully!',
             snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.green[100],
+            backgroundColor: ConstsConfig.primarycolor,
             colorText: Colors.black);
         isLoading.value = false;
         // Clear input fields
@@ -128,7 +129,7 @@ class PaymentListController extends GetxController {
 
       Get.snackbar('Success', 'payment deleted successfully!',
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green[100],
+          backgroundColor: ConstsConfig.primarycolor,
           colorText: Colors.black);
     } catch (e) {
       // Handle any errors that occur during deletion

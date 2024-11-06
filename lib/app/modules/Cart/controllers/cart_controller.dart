@@ -70,7 +70,9 @@ class CartController extends GetxController {
   }
 
   void clearCart() {
-    cartItems.clear();
+    cartItems.clear(); // Clear the in-memory cart items
+    storage.remove('cart'); // Remove cart data from storage
+    updateTotalAmount(); // Reset total amount
     update(); // Notify listeners
   }
 }
