@@ -44,7 +44,6 @@ class OrderSuccessView extends GetView<OrderSuccessController> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 18,
-                  color: Colors.black,
                 ),
               ),
               const SizedBox(height: 30),

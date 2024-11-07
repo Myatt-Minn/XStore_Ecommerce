@@ -219,8 +219,7 @@ class CategoryView extends GetView<CategoryController> {
     return GestureDetector(
       onTap: () {
         controller.fetchProducts(
-            category: label
-                .toLowerCase()); // Fetch products for the selected category
+            category: label); // Fetch products for the selected category
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),

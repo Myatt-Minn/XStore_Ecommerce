@@ -149,7 +149,7 @@ class AdminDrawer extends StatelessWidget {
           buildMenuItem(
             context,
             Icons.category,
-            'Privacy Policy',
+            'Prolicies and Terms',
             Colors.grey,
             () => Get.toNamed('/add-privacy'),
           ),

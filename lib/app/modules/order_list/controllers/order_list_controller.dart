@@ -64,6 +64,43 @@ class OrderListController extends GetxController {
     }
   }
 
+  Future<void> cancelOrder(String orderId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('orders')
+          .doc(orderId)
+          .update({'status': 'Canceled'});
+
+      Get.back();
+      fetchOrders();
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to Cancel order: $e');
+    }
+  }
+
+  void showDeleteDialog(String orderId) {
+    Get.dialog(
+      AlertDialog(
+        title: const Text('Delete Order?'),
+        content: const Text('Are you sure you want to delete this order?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Get.back(); // Close the dialog without any action
+            },
+            child: const Text('No'),
+          ),
+          TextButton(
+            onPressed: () async {
+              await deleteorder(orderId);
+            },
+            child: const Text('Yes'),
+          ),
+        ],
+      ),
+    );
+  }
+
   void showConfirmDialog(String orderId) {
     Get.dialog(
       AlertDialog(
@@ -87,11 +124,11 @@ class OrderListController extends GetxController {
     );
   }
 
-  void showDeleteDialog(String orderId) {
+  void showCancelDialog(String orderId) {
     Get.dialog(
       AlertDialog(
-        title: const Text('Delete Order?'),
-        content: const Text('Are you sure you want to delete this order?'),
+        title: const Text('Cancel Order?'),
+        content: const Text('Are you sure you want to cancel this order?'),
         actions: [
           TextButton(
             onPressed: () {
@@ -101,7 +138,7 @@ class OrderListController extends GetxController {
           ),
           TextButton(
             onPressed: () async {
-              await deleteorder(orderId);
+              await cancelOrder(orderId);
             },
             child: const Text('Yes'),
           ),

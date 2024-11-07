@@ -14,7 +14,7 @@ class OrderHistoryTile extends StatelessWidget {
         return ConstsConfig.primarycolor;
       case 'Refund':
         return Colors.blue;
-      case 'Cancel':
+      case 'Canceled':
         return Colors.red;
       case 'Pending':
         return Colors.orange;

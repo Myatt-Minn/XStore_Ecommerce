@@ -104,6 +104,14 @@ class OrderListView extends GetView<OrderListController> {
                                             },
                                           ),
                                           IconButton(
+                                            icon: const Icon(Icons.cancel,
+                                                color: Colors.orange),
+                                            onPressed: () {
+                                              controller.showCancelDialog(
+                                                  orderitem.orderId!);
+                                            },
+                                          ),
+                                          IconButton(
                                             icon: const Icon(Icons.delete,
                                                 color: Colors.red),
                                             onPressed: () {

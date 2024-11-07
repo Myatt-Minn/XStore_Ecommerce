@@ -99,7 +99,9 @@ class CategoryController extends GetxController {
       return productList
           .where((product) =>
               product.name!.toLowerCase().contains(searchText.toLowerCase()) ||
-              product.brand!.toLowerCase().contains(searchText.toLowerCase()))
+              product.category!
+                  .toLowerCase()
+                  .contains(searchText.toLowerCase()))
           .toList();
     }
   }
