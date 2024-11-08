@@ -104,7 +104,7 @@ class HomeView extends GetView<HomeController> {
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: GestureDetector(
                   onTap: () {
-                    Get.toNamed('all-products');
+                    Get.toNamed('/all-products');
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(
@@ -132,7 +132,7 @@ class HomeView extends GetView<HomeController> {
                         IconButton(
                           icon: const Icon(Icons.filter_list),
                           onPressed: () {
-                            Get.toNamed('all-products');
+                            Get.toNamed('/all-products');
                           },
                         ),
                       ],
@@ -236,7 +236,7 @@ class HomeView extends GetView<HomeController> {
 
               // New Arrivals Section
               buildSectionHeader("New Arrivals", () {
-                Get.toNamed('all-products');
+                Get.toNamed('/all-products');
               }),
               Obx(() {
                 if (controller.productList.isEmpty) {
