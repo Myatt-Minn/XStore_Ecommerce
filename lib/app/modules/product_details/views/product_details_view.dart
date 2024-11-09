@@ -12,7 +12,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
 
   @override
   Widget build(BuildContext context) {
-    final cartController = Get.put(CartController());
+    final cartController = Get.put(CartController(), permanent: true);
     Get.put(CartController());
     return Scaffold(
       appBar: AppBar(
