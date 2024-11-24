@@ -13,6 +13,7 @@ class OrderItem {
   final List<CartItem>? items;
   final String? paymentMethod; // Payment method as a String
   final String? address;
+  final int? deliveryFee;
 
   OrderItem(
       {this.name,
@@ -25,7 +26,8 @@ class OrderItem {
       this.totalPrice,
       this.items,
       this.paymentMethod,
-      this.address});
+      this.address,
+      this.deliveryFee});
 
   // Convert Firestore data to Order model
   factory OrderItem.fromMap(Map<String, dynamic> map) {
@@ -45,6 +47,7 @@ class OrderItem {
           .toList(),
       paymentMethod: map['paymentMethod'] ?? '',
       address: map['address'] ?? '',
+      deliveryFee: map['deliveryFee'] ?? '',
     );
   }
 
@@ -62,6 +65,7 @@ class OrderItem {
       'items': items!.map((item) => item.toJson()).toList(),
       'paymentMethod': paymentMethod,
       'address': address,
+      'deliveryFee': deliveryFee
     };
   }
 }

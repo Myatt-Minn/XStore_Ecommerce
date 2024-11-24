@@ -91,7 +91,15 @@ class SendNotificationHandler {
   }
 
   Future<void> initNotification() async {
-    await messaging.requestPermission();
+    await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
     final fCMToken = await messaging.getToken();
     await FirebaseFirestore.instance
         .collection("users")

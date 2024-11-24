@@ -8,6 +8,8 @@ import '../modules/SendNotification/bindings/send_notification_binding.dart';
 import '../modules/SendNotification/views/send_notification_view.dart';
 import '../modules/account/bindings/account_binding.dart';
 import '../modules/account/views/account_view.dart';
+import '../modules/add_delivery_fee/bindings/add_delivery_fee_binding.dart';
+import '../modules/add_delivery_fee/views/add_delivery_fee_view.dart';
 import '../modules/add_privacy/bindings/add_privacy_binding.dart';
 import '../modules/add_privacy/views/add_privacy_view.dart';
 import '../modules/add_terms/bindings/add_terms_binding.dart';
@@ -38,6 +40,8 @@ import '../modules/check_out/bindings/check_out_binding.dart';
 import '../modules/check_out/views/check_out_view.dart';
 import '../modules/customer_list/bindings/customer_list_binding.dart';
 import '../modules/customer_list/views/customer_list_view.dart';
+import '../modules/deliveryFees_list/bindings/delivery_fees_list_binding.dart';
+import '../modules/deliveryFees_list/views/delivery_fees_list_view.dart';
 import '../modules/edit_products/bindings/edit_products_binding.dart';
 import '../modules/edit_products/views/edit_products_view.dart';
 import '../modules/edit_profile/bindings/edit_profile_binding.dart';
@@ -323,6 +327,16 @@ class AppPages {
       name: _Paths.FULL_SCREEN_IMAGE,
       page: () => const FullScreenImageView(),
       binding: FullScreenImageBinding(),
+    ),
+    GetPage(
+      name: _Paths.DELIVERY_FEES_LIST,
+      page: () => const DeliveryFeesListView(),
+      binding: DeliveryFeesListBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADD_DELIVERY_FEE,
+      page: () => const AddDeliveryFeeView(),
+      binding: AddDeliveryFeeBinding(),
     ),
   ];
 }

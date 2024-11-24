@@ -42,6 +42,8 @@ abstract class Routes {
   static const PRIVACY_POLICY = _Paths.PRIVACY_POLICY;
   static const TERMS_AND_CONDITION = _Paths.TERMS_AND_CONDITION;
   static const FULL_SCREEN_IMAGE = _Paths.FULL_SCREEN_IMAGE;
+  static const DELIVERY_FEES_LIST = _Paths.DELIVERY_FEES_LIST;
+  static const ADD_DELIVERY_FEE = _Paths.ADD_DELIVERY_FEE;
 }
 
 abstract class _Paths {
@@ -92,4 +94,6 @@ abstract class _Paths {
   static const PRIVACY_POLICY = '/privacy-policy';
   static const TERMS_AND_CONDITION = '/terms-and-condition';
   static const FULL_SCREEN_IMAGE = '/full-screen-image';
+  static const DELIVERY_FEES_LIST = '/delivery-fees-list';
+  static const ADD_DELIVERY_FEE = '/add-delivery-fee';
 }

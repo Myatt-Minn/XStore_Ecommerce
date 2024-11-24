@@ -27,6 +27,8 @@ class AdminPanelView extends GetView<AdminPanelController> {
               () => Get.toNamed('/banner-list')),
           buildMenuItem(context, Icons.payment, 'Payment', Colors.grey,
               () => Get.toNamed('/payment-list')),
+          buildMenuItem(context, Icons.payment, 'DeliveryFees', Colors.grey,
+              () => Get.toNamed('/delivery-fees-list')),
           buildMenuItem(context, Icons.payment, 'Policies and Terms',
               Colors.grey, () => Get.toNamed('/add-privacy')),
           buildMenuItem(context, Icons.message, 'SendNotification', Colors.grey,

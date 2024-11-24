@@ -148,6 +148,13 @@ class AdminDrawer extends StatelessWidget {
           ),
           buildMenuItem(
             context,
+            Icons.payment,
+            'DeliveryFee List',
+            Colors.grey,
+            () => Get.toNamed('/delivery-fees-list'),
+          ),
+          buildMenuItem(
+            context,
             Icons.category,
             'Prolicies and Terms',
             Colors.grey,

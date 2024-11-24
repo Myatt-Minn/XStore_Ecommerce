@@ -11,6 +11,7 @@ class AccountView extends GetView<AccountController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Icon(Icons.person),
         title: const Text(
           'Account',
           style: TextStyle(fontWeight: FontWeight.bold),

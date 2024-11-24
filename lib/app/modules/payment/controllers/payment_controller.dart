@@ -115,7 +115,7 @@ class PaymentController extends GetxController {
       return;
     }
 
-    isLoading.value = true;
+    isOrder.value = true;
 
     // Perform stock check for all items in the cart before placing the order
     bool isStockAvailable = await checkStockForOrder(
@@ -126,7 +126,7 @@ class PaymentController extends GetxController {
       Get.snackbar(
           'Stock Error', 'Not enough stock for one or more items in your cart.',
           backgroundColor: Colors.red);
-      isLoading.value = false;
+      isOrder.value = false;
       return;
     }
 
@@ -138,10 +138,11 @@ class PaymentController extends GetxController {
       totalPrice: Get.arguments['totalCost'],
       address: Get.arguments['address'],
       status: "Pending",
+      deliveryFee: Get.arguments['deliveryFee'],
     );
 
     Get.offNamed('/order-success');
-    isLoading.value = false;
+    isOrder.value = false;
   }
 
 // Function to check if there's enough stock for each item in the cart
@@ -190,6 +191,7 @@ class PaymentController extends GetxController {
     required String status,
     required String name,
     required String phoneNumber,
+    required int deliveryFee,
   }) async {
     try {
       final user = FirebaseAuth.instance.currentUser;
@@ -205,18 +207,18 @@ class PaymentController extends GetxController {
 
       // Create the OrderModel instance
       final order = OrderItem(
-        userId: user.uid,
-        orderId: docRef.id,
-        orderDate: dateTime,
-        status: status, // Initial status
-        totalPrice: totalPrice,
-        paymentMethod: selectedPayment.value,
-        transationUrl: transitionImage.value,
-        name: name,
-        phoneNumber: phoneNumber,
-        address: address,
-        items: cartItems, // Convert CartItems to Maps
-      );
+          userId: user.uid,
+          orderId: docRef.id,
+          orderDate: dateTime,
+          status: status, // Initial status
+          totalPrice: totalPrice,
+          paymentMethod: selectedPayment.value,
+          transationUrl: transitionImage.value,
+          name: name,
+          phoneNumber: phoneNumber,
+          address: address,
+          items: cartItems, // Convert CartItems to Maps
+          deliveryFee: deliveryFee);
 
       // Add the order to Firestore
       await docRef.set(order.toMap());

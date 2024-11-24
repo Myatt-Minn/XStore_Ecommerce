@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xstore/app/data/consts_config.dart';
 import 'package:xstore/app/modules/Cart/controllers/cart_controller.dart';
-import 'package:xstore/app/modules/payment/controllers/payment_controller.dart';
+import 'package:xstore/app/modules/home/controllers/home_controller.dart';
+import 'package:xstore/app/modules/navigation_screen/controllers/navigation_screen_controller.dart';
 
 import '../controllers/order_success_controller.dart';
 
@@ -12,6 +13,7 @@ class OrderSuccessView extends GetView<OrderSuccessController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Container(),
         title:
             const Text('Order Success', style: TextStyle(color: Colors.black)),
         centerTitle: true,
@@ -60,8 +62,11 @@ class OrderSuccessView extends GetView<OrderSuccessController> {
                   // Navigate to shopping or home
                   Get.find<CartController>().clearCart();
                   Get.find<CartController>().totalAmount.value = 0;
-                  Get.delete<PaymentController>();
-                  Get.offAndToNamed('/navigation-screen');
+                  Get.find<HomeController>().fetchProducts();
+                  Get.find<HomeController>().fetchPopular();
+                  Get.find<NavigationScreenController>().currentIndex.value = 0;
+
+                  Get.back();
                 },
                 child: const Text(
                   'Back to Shopping',

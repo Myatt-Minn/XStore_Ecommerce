@@ -1,7 +1,6 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:xstore/app/data/consts_config.dart';
 import 'package:xstore/app/data/order_model.dart';
 
 import '../controllers/order_history_controller.dart';
@@ -284,17 +283,17 @@ class OrderDetails extends GetView<OrderHistoryController> {
             style: TextStyle(fontSize: 16),
           ),
           trailing: Text(
-            "${order.totalPrice! - ConstsConfig.deliveryfee} MMK",
+            "${order.totalPrice! - order.deliveryFee!} MMK",
             style: const TextStyle(fontSize: 16),
           ),
         ),
-        const ListTile(
+        ListTile(
           title: Text(
             "Delivery Fees",
             style: TextStyle(fontSize: 16),
           ),
           trailing: Text(
-            "${ConstsConfig.deliveryfee} MMK",
+            "${order.deliveryFee} MMK",
             style: TextStyle(fontSize: 16),
           ),
         ),

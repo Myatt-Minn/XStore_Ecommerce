@@ -23,7 +23,8 @@ class SummarySection extends StatelessWidget {
           return Column(
             children: [
               _summaryRow('Subtotal', '${cartController.totalAmount} MMK'),
-              _summaryRow('Delivery Fees', '${ConstsConfig.deliveryfee} MMK'),
+              _summaryRow(
+                  'Delivery Fees', '${checkOutController.deliveryFee} MMK'),
               _summaryRow(
                   'Total Cost', '${checkOutController.finaltotalcost} MMK'),
             ],
@@ -62,7 +63,8 @@ class SummarySection extends StatelessWidget {
                           "phoneNumber":
                               checkOutController.phoneNumberController.text,
                           "address": checkOutController.addressController.text,
-                          "totalCost": checkOutController.finaltotalcost
+                          "totalCost": checkOutController.finaltotalcost,
+                          "deliveryFee": checkOutController.deliveryFee.value,
                         })
                       : Get.snackbar("Empty TextBox",
                           "Please fill all informations first.");

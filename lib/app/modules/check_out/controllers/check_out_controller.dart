@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xstore/app/data/cart_model.dart';
-import 'package:xstore/app/data/consts_config.dart';
 import 'package:xstore/app/data/order_model.dart';
 import 'package:xstore/app/modules/Cart/controllers/cart_controller.dart';
 
@@ -14,23 +13,79 @@ class CheckOutController extends GetxController {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  // Observable properties
+  var regions = <String>[].obs;
+  var cities = <Map<String, dynamic>>[].obs;
 
+  var selectedRegion = ''.obs;
+  var selectedCity = ''.obs;
+
+  var deliveryFee = 0.obs;
   @override
   void onInit() {
     super.onInit();
 
     fetchUserData();
+    fetchRegions();
+  }
+
+  // Fetch regions from Firestore
+  void fetchRegions() async {
+    try {
+      QuerySnapshot snapshot =
+          await FirebaseFirestore.instance.collection('regions').get();
+
+      regions.value =
+          snapshot.docs.map((doc) => doc['name'] as String).toList();
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to fetch regions.');
+    }
+  }
+
+  // When a region is selected
+  void onRegionSelected(String region) async {
+    selectedRegion.value = region;
+    selectedCity.value = ''; // Reset selected city
+    deliveryFee.value = 0; // Reset delivery fee
+
+    // Fetch cities for the selected region
+    try {
+      DocumentSnapshot regionDoc = await FirebaseFirestore.instance
+          .collection('regions')
+          .where('name', isEqualTo: region)
+          .limit(1)
+          .get()
+          .then((snapshot) => snapshot.docs.first);
+
+      cities.value = List<Map<String, dynamic>>.from(regionDoc['cities']);
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to fetch cities.');
+    }
+  }
+
+  // When a city is selected
+  void onCitySelected(String city) {
+    selectedCity.value = city;
+
+    // Update delivery fee based on selected city
+    var cityData =
+        cities.firstWhere((c) => c['name'] == city, orElse: () => {});
+    if (cityData.isNotEmpty) {
+      deliveryFee.value = cityData['deliveryFee'];
+    } else {
+      Get.snackbar("GG", "G");
+    }
   }
 
   int get finaltotalcost {
-    return Get.find<CartController>().totalAmount.value +
-        ConstsConfig.deliveryfee;
+    return Get.find<CartController>().totalAmount.value + deliveryFee.value;
   }
 
   bool setOrder() {
     if (nameController.text.isNotEmpty &&
         phoneNumberController.text.isNotEmpty &&
-        addressController.text.isNotEmpty) {
+        addressController.text.isNotEmpty &&
+        deliveryFee.value != 0) {
       return true;
     } else {
       return false;
@@ -131,17 +186,17 @@ class CheckOutController extends GetxController {
       DateTime dateTime = timestamp.toDate();
 
       final order = OrderItem(
-        userId: user.uid,
-        orderId: docRef.id,
-        orderDate: dateTime,
-        status: status, // Initial status
-        totalPrice: totalPrice,
-        paymentMethod: "COD", // Assuming COD for now
-        name: name,
-        phoneNumber: phoneNumber,
-        address: address,
-        items: cartItems, // Convert CartItems to Maps
-      );
+          userId: user.uid,
+          orderId: docRef.id,
+          orderDate: dateTime,
+          status: status, // Initial status
+          totalPrice: totalPrice,
+          paymentMethod: "COD", // Assuming COD for now
+          name: name,
+          phoneNumber: phoneNumber,
+          address: address,
+          items: cartItems, // Convert CartItems to Maps
+          deliveryFee: deliveryFee.value);
 
       // Add the order to Firestore
       await docRef.set(order.toMap());

@@ -13,7 +13,9 @@ class CartController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loadCartFromStorage(); // Load cart items from storage
+    cartItems
+        .listen((_) => calculateTotalAmount()); // Recalculate when cart changes
+    loadCartFromStorage(); // Load cart from storage on initialization
   }
 
   // Getter for cart item count
@@ -35,6 +37,14 @@ class CartController extends GetxController {
 
     updateTotalAmount();
     saveCartToStorage();
+  }
+
+  void calculateTotalAmount() {
+    int total = 0;
+    for (var item in cartItems) {
+      total += item.price * item.quantity;
+    }
+    totalAmount.value = total;
   }
 
   // Remove item from the cart

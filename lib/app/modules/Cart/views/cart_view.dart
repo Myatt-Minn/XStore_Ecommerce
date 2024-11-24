@@ -111,24 +111,141 @@ class CartView extends GetView<CartController> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Row(
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 12, vertical: 4),
-                                        decoration: BoxDecoration(
-                                          color: Colors.grey[200],
-                                          borderRadius:
-                                              BorderRadius.circular(12),
-                                        ),
-                                        child: Text(
-                                          item.quantity.toString(),
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
+                                      const SizedBox(width: 8),
+                                      Row(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  if (controller
+                                                          .cartItems[index]
+                                                          .quantity >
+                                                      1) {
+                                                    for (var map in controller
+                                                        .cartItems) {
+                                                      if (map.size ==
+                                                              controller
+                                                                  .cartItems[
+                                                                      index]
+                                                                  .size &&
+                                                          map.productId ==
+                                                              controller
+                                                                  .cartItems[
+                                                                      index]
+                                                                  .productId) {
+                                                        map.quantity =
+                                                            (controller
+                                                                    .cartItems[
+                                                                        index]
+                                                                    .quantity -
+                                                                1);
+                                                      }
+                                                    }
+                                                  } else {
+                                                    return;
+                                                  }
+
+                                                  controller.cartItems
+                                                      .refresh();
+                                                  controller
+                                                      .saveCartToStorage();
+                                                },
+                                                child: Container(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 14,
+                                                      vertical: 4),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.grey[200],
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12),
+                                                  ),
+                                                  child: Text(
+                                                    "-",
+                                                    style: const TextStyle(
+                                                      color: Colors.red,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 21,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 12,
+                                                        vertical: 4),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.transparent,
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                ),
+                                                child: Text(
+                                                  item.quantity.toString(),
+                                                  style: const TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  for (var map
+                                                      in controller.cartItems) {
+                                                    if (map.size ==
+                                                            controller
+                                                                .cartItems[
+                                                                    index]
+                                                                .size &&
+                                                        map.productId ==
+                                                            controller
+                                                                .cartItems[
+                                                                    index]
+                                                                .productId) {
+                                                      map.quantity = (controller
+                                                              .cartItems[index]
+                                                              .quantity +
+                                                          1);
+                                                    }
+                                                  }
+                                                  controller.cartItems
+                                                      .refresh();
+                                                  controller
+                                                      .saveCartToStorage();
+                                                },
+                                                child: Container(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 12,
+                                                      vertical: 4),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.grey[200],
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12),
+                                                  ),
+                                                  child: Text(
+                                                    "+",
+                                                    style: const TextStyle(
+                                                      color: Colors.green,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 19,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ),
+                                          const SizedBox(width: 8),
+                                        ],
                                       ),
                                     ],
                                   ),
